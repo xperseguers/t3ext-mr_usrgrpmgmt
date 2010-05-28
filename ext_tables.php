@@ -9,6 +9,7 @@ $manageUsers = FALSE;
 // Create a virtual column to hold user assignment
 $newColumns = array(
 	'tx_mrusrgrpmgmt_users' => array(
+		'displayCond' => 'REC:NEW:false',
 		'exclude' => 1,
 		'label' => 'LLL:EXT:mr_usrgrpmgmt/locallang_tca.xml:groups.tx_mrusrgrpmgmt_users',
 		'config' => array(
