@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<T3locallang>
+	<meta type="array">
+		<description>Labels for extension mr_usrgrpmgmt.</description>
+		<type>module</type>
+	</meta>
+	<data type="array">
+		<languageKey index="default" type="array">
+			<label index="management.be_groups">Backend Group User Management: Whether users may be managed for backend groups.</label>
+			<label index="management.fe_groups">Frontend Group User Management: Whether users may be managed for frontend groups.</label>
+		</languageKey>
+	</data>
+</T3locallang>
