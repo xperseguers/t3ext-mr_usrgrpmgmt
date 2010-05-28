@@ -1,6 +1,6 @@
 <?php
-if (!defined ('TYPO3_MODE')) {
-	die ('Access denied.');
+if (!defined('TYPO3_MODE')) {
+	die('Access denied.');
 }
 
 $config = unserialize($TYPO3_CONF_VARS['EXT']['extConf'][$_EXTKEY]);
@@ -17,7 +17,7 @@ $newColumns = array(
 			'itemsProcFunc' => 'tx_mrusrgrpmgmt_itemfunctions->users',
 			'size' => '12',
 			'minitems' => '0',
-			'maxitems' => '999'
+			'maxitems' => '999',
 		),
 	),
 );
@@ -35,7 +35,7 @@ foreach ($tables as $table) {
 }
 
 if ($manageUsers) {
-	// Register hook into t3lib_tceforms and t3lib_tcemain
+	// Register hooks into t3lib_tceforms and t3lib_tcemain
 	$TYPO3_CONF_VARS['SC_OPTIONS']['t3lib/class.t3lib_tceforms.php']['getSingleFieldClass'][] = 'EXT:mr_usrgrpmgmt/hooks/class.tx_mrusrgrpmgmt_tce.php:tx_mrusrgrpmgmt_tce';
 	$TYPO3_CONF_VARS['SC_OPTIONS']['t3lib/class.t3lib_tcemain.php']['processDatamapClass'][] = 'EXT:mr_usrgrpmgmt/hooks/class.tx_mrusrgrpmgmt_tce.php:tx_mrusrgrpmgmt_tce';
 
