@@ -44,7 +44,7 @@ class tx_mrusrgrpmgmt_tce {
 	 * @param array $PA
 	 * @return void
 	 */
-	public function getSingleField_beforeRender($table, $field, $row, &$PA) {
+	public function getSingleField_beforeRender($table, $field, array $row, array &$PA) {
 		if (t3lib_div::inList('be_groups,fe_groups', $table) && $field === 'tx_mrusrgrpmgmt_users') {
 			$userTable = ($params['table'] === 'be_groups' ? 'be_users' : 'fe_users');
 			$users = $GLOBALS['TYPO3_DB']->exec_SELECTgetRows(
@@ -71,7 +71,7 @@ class tx_mrusrgrpmgmt_tce {
 	 * @param t3lib_TCEmain $pObj
 	 * @return void
 	 */
-	public function processDatamap_postProcessFieldArray ($status, $table, $id, &$fieldArray, t3lib_TCEmain $pObj) {
+	public function processDatamap_postProcessFieldArray ($status, $table, $id, array &$fieldArray, t3lib_TCEmain $pObj) {
 		if (t3lib_div::inList('be_groups,fe_groups', $table)) {			
 			t3lib_div::debug($fieldArray, $status);
 
