@@ -25,9 +25,12 @@
 /**
  * TCA helper for extension mr_usrgrpmgmt.
  *
- * @author      Xavier Perseguers <typo3@perseguers.ch>
+ * @category    TCA
  * @package     TYPO3
- * @subpackage  mr_usrgrpmgmt
+ * @subpackage  tx_mrusrgrpmgmt
+ * @author      Xavier Perseguers <typo3@perseguers.ch>
+ * @copyright   2010 Hemmer.ch SA
+ * @license     http://www.gnu.org/copyleft/gpl.html
  * @version     SVN: $Id$
  */
 class tx_mrusrgrpmgmt_itemfunctions {
@@ -39,29 +42,23 @@ class tx_mrusrgrpmgmt_itemfunctions {
 	 * @param object $pObj
 	 */
 	public function users(array &$params, $pObj) {
-		switch ($params['table']) {
-			case 'fe_groups':
-				$users = $GLOBALS['TYPO3_DB']->exec_SELECTgetRows(
-					'*',
-					'fe_users',
-					'1=1' . t3lib_BEfunc::deleteClause('fe_users')
-				);
-				foreach ($users as $user) {
-					$params['items'][] = array($user['username'], $user['uid']);
-				}
-				break;
-			case 'be_groups':
-				$users = $GLOBALS['TYPO3_DB']->exec_SELECTgetRows(
-					'*',
-					'be_users',
-					'1=1' . t3lib_BEfunc::deleteClause('be_users')
-				);
-				foreach ($users as $user) {
-					$params['items'][] = array($user['username'], $user['uid']);
-				}
-				break;
+		if (t3lib_div::inList('be_groups,fe_groups', $params['table'])) {
+			$userTable = ($params['table'] === 'be_groups' ? 'be_users' : 'fe_users');
+			$users = $GLOBALS['TYPO3_DB']->exec_SELECTgetRows(
+				'*',
+				$userTable,
+				'1=1' . t3lib_BEfunc::deleteClause($userTable)
+			);
+			foreach ($users as $user) {
+				$params['items'][] = array($user['username'], $user['uid']);
+			}
 		}
 	}
+}
+
+
+if (defined('TYPO3_MODE') && $TYPO3_CONF_VARS[TYPO3_MODE]['XCLASS']['ext/mr_usrgrpmgmt/classes/class.tx_mrusrgrpmgmt_itemfunctions.php']) {
+	include_once($TYPO3_CONF_VARS[TYPO3_MODE]['XCLASS']['ext/mr_usrgrpmgmt/classes/class.tx_mrusrgrpmgmt_itemfunctions.php']);
 }
 
 ?>
