@@ -3,7 +3,7 @@
 ########################################################################
 # Extension Manager/Repository config file for ext "mr_usrgrpmgmt".
 #
-# Auto generated 28-05-2010 14:00
+# Auto generated 29-05-2010 02:30
 #
 # Manual updates:
 # Only the data in the array - everything else is removed by next
@@ -39,7 +39,7 @@ $EM_CONF[$_EXTKEY] = array(
 		'suggests' => array(
 		),
 	),
-	'_md5_values_when_last_written' => '',
+	'_md5_values_when_last_written' => 'a:8:{s:9:"ChangeLog";s:4:"1dec";s:21:"ext_conf_template.txt";s:4:"07c8";s:12:"ext_icon.gif";s:4:"37d5";s:14:"ext_tables.php";s:4:"0a72";s:13:"locallang.xml";s:4:"234c";s:17:"locallang_tca.xml";s:4:"8809";s:47:"classes/class.tx_mrusrgrpmgmt_itemfunctions.php";s:4:"f60c";s:35:"hooks/class.tx_mrusrgrpmgmt_tce.php";s:4:"7b9e";}',
 	'suggests' => array(
 	),
 );
