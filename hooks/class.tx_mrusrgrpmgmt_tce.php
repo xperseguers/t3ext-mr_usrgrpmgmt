@@ -46,13 +46,7 @@ class tx_mrusrgrpmgmt_tce {
 	 */
 	public function getSingleField_beforeRender($table, $field, array $row, array &$PA) {
 		if (t3lib_div::inList('be_groups,fe_groups', $table) && $field === 'tx_mrusrgrpmgmt_users') {
-			$userTable = ($params['table'] === 'be_groups' ? 'be_users' : 'fe_users');
-			$users = $GLOBALS['TYPO3_DB']->exec_SELECTgetRows(
-				'uid',
-				$userTable,
-				'CONCAT(CONCAT(\',\', usergroup), \',\') LIKE \'%,' . $row['uid'] . ',%\'' .
-					t3lib_BEfunc::deleteClause($userTable) 
-			);
+			$users = $this->getAssignedUsers($table, $row['uid']);
 			$list = array();
 			foreach ($users as $user) {
 				$list[] = $user['uid'];
@@ -62,7 +56,7 @@ class tx_mrusrgrpmgmt_tce {
 	}
 
 	/**
-	 * Processes the save of a fe_group/be_group record.
+	 * Updates the group assignment to corresponding user records.
 	 * 
 	 * @param string $status
 	 * @param string $table
@@ -71,14 +65,73 @@ class tx_mrusrgrpmgmt_tce {
 	 * @param t3lib_TCEmain $pObj
 	 * @return void
 	 */
-	public function processDatamap_postProcessFieldArray ($status, $table, $id, array &$fieldArray, t3lib_TCEmain $pObj) {
-		if (t3lib_div::inList('be_groups,fe_groups', $table)) {			
-			t3lib_div::debug($fieldArray, $status);
+	public function processDatamap_postProcessFieldArray($status, $table, $id, array &$fieldArray, t3lib_TCEmain $pObj) {
+		if (t3lib_div::inList('be_groups,fe_groups', $table)) {
+			$userTable = ($params['table'] === 'be_groups' ? 'be_users' : 'fe_users');
+			$users = $this->getAssignedUsers($table, $id);
+			$oldList = array();
+			foreach ($users as $user) {
+				$oldList[] = $user['uid'];
+			}
+			$newList = t3lib_div::trimExplode(',', $fieldArray['tx_mrusrgrpmgmt_users']);
+			$removedUids = array_diff($oldList, $newList);
+			$addedUids = array_diff($newList, $oldList);
 
-				// Remove virtual user column
+				// Remove users that are not member anymore of the group
+			foreach ($removedUids as $userUid) {
+				$user = t3lib_BEfunc::getRecord($userTable, $userUid);
+				$usergroups = t3lib_div::trimExplode(',', $user['usergroup']);
+				$key = array_search($id, $usergroups);
+				unset($usergroups[$key]);
+				
+				$GLOBALS['TYPO3_DB']->exec_UPDATEquery(
+					$userTable,
+					'uid=' . $userUid,
+					array(
+						'usergroup' => implode(',', $usergroups),
+					)
+				);
+			}
+
+				// Add users that are now member of the group
+			foreach ($addedUids as $userUid) {
+				$user = t3lib_BEfunc::getRecord($userTable, $userUid);
+				$usergroups = t3lib_div::trimExplode(',', $user['usergroup']);
+				$usergroups[] = $id;
+
+				$GLOBALS['TYPO3_DB']->exec_UPDATEquery(
+					$userTable,
+					'uid=' . $userUid,
+					array(
+						'usergroup' => implode(',', $usergroups),
+					)
+				);
+			}
+
+				// Remove virtual user column to prevent TYPO3 from
+				// trying to save content to this non-existing column
 			unset($fieldArray['tx_mrusrgrpmgmt_users']);
 		}
 	}
+
+	/**
+	 * Returns the users assigned to a given group.
+	 *
+	 * @param string $table
+	 * @param integer $groupUid
+	 * @return array
+	 */
+	protected function getAssignedUsers($table, $groupUid) {
+		$userTable = ($params['table'] === 'be_groups' ? 'be_users' : 'fe_users');
+		$users = $GLOBALS['TYPO3_DB']->exec_SELECTgetRows(
+			'uid',
+			$userTable,
+			'CONCAT(CONCAT(\',\', usergroup), \',\') LIKE \'%,' . $groupUid . ',%\'' .
+				t3lib_BEfunc::deleteClause($userTable) 
+		);
+		return $users;
+	}
+
 }
 
 
