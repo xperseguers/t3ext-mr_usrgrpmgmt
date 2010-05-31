@@ -3,7 +3,7 @@
 ########################################################################
 # Extension Manager/Repository config file for ext "mr_usrgrpmgmt".
 #
-# Auto generated 31-05-2010 13:34
+# Auto generated 31-05-2010 13:38
 #
 # Manual updates:
 # Only the data in the array - everything else is removed by next
@@ -12,9 +12,9 @@
 
 $EM_CONF[$_EXTKEY] = array(
 	'title' => 'User Group Management',
-	'description' => 'This is a backend-related extension to manage frontend and backend users from the edit form of frontend groups. Easily assign users to groups or remove them from groups.',
+	'description' => 'This is a backend-related extension to manage both backend and frontend users from the edit form of backend/frontend groups. Easily assign users to groups or remove them from groups.',
 	'category' => 'be',
-	'author' => 'Xavier Perseguers',
+	'author' => 'Xavier Perseguers (Hemmer.ch SA)',
 	'author_email' => 'typo3@perseguers.ch',
 	'shy' => '',
 	'dependencies' => '',
