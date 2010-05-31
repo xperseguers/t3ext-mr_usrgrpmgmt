@@ -127,7 +127,9 @@ class tx_mrusrgrpmgmt_tce {
 			'uid',
 			$userTable,
 			'CONCAT(CONCAT(\',\', usergroup), \',\') LIKE \'%,' . $groupUid . ',%\'' .
-				t3lib_BEfunc::deleteClause($userTable) 
+				t3lib_BEfunc::deleteClause($userTable),
+			'',
+			'username' 
 		);
 		return $users;
 	}

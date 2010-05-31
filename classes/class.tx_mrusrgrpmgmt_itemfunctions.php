@@ -45,9 +45,11 @@ class tx_mrusrgrpmgmt_itemfunctions {
 		if (t3lib_div::inList('be_groups,fe_groups', $params['table'])) {
 			$userTable = ($params['table'] === 'be_groups' ? 'be_users' : 'fe_users');
 			$users = $GLOBALS['TYPO3_DB']->exec_SELECTgetRows(
-				'*',
+				'uid,username',
 				$userTable,
-				'1=1' . t3lib_BEfunc::deleteClause($userTable)
+				'1=1' . t3lib_BEfunc::deleteClause($userTable),
+				'',
+				'username'
 			);
 			foreach ($users as $user) {
 				$params['items'][] = array($user['username'], $user['uid']);
