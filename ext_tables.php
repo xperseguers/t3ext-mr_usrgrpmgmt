@@ -11,7 +11,7 @@ $newColumns = array(
 	'tx_mrusrgrpmgmt_users' => array(
 		'displayCond' => 'REC:NEW:false',
 		'exclude' => 1,
-		'label' => 'LLL:EXT:mr_usrgrpmgmt/locallang_tca.xml:groups.tx_mrusrgrpmgmt_users',
+		'label' => 'LLL:EXT:' . $_EXTKEY . '/locallang_tca.xml:groups.tx_mrusrgrpmgmt_users',
 		'config' => array(
 			'type' => 'select',
 			'itemsProcFunc' => 'tx_mrusrgrpmgmt_itemfunctions->users',
@@ -36,8 +36,8 @@ foreach ($tables as $table) {
 
 if ($manageUsers) {
 	// Register hooks into t3lib_tceforms and t3lib_tcemain
-	$TYPO3_CONF_VARS['SC_OPTIONS']['t3lib/class.t3lib_tceforms.php']['getSingleFieldClass'][] = 'EXT:mr_usrgrpmgmt/hooks/class.tx_mrusrgrpmgmt_tce.php:tx_mrusrgrpmgmt_tce';
-	$TYPO3_CONF_VARS['SC_OPTIONS']['t3lib/class.t3lib_tcemain.php']['processDatamapClass'][] = 'EXT:mr_usrgrpmgmt/hooks/class.tx_mrusrgrpmgmt_tce.php:tx_mrusrgrpmgmt_tce';
+	$TYPO3_CONF_VARS['SC_OPTIONS']['t3lib/class.t3lib_tceforms.php']['getSingleFieldClass'][] = 'EXT:' . $_EXTKEY . '/hooks/class.tx_mrusrgrpmgmt_tce.php:tx_mrusrgrpmgmt_tce';
+	$TYPO3_CONF_VARS['SC_OPTIONS']['t3lib/class.t3lib_tcemain.php']['processDatamapClass'][] = 'EXT:' . $_EXTKEY . '/hooks/class.tx_mrusrgrpmgmt_tce.php:tx_mrusrgrpmgmt_tce';
 
 	include_once(t3lib_extMgm::extPath($_EXTKEY) . 'classes/class.tx_mrusrgrpmgmt_itemfunctions.php');
 }
