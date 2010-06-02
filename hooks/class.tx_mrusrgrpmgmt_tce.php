@@ -67,7 +67,7 @@ class tx_mrusrgrpmgmt_tce {
 	 */
 	public function processDatamap_postProcessFieldArray($status, $table, $id, array &$fieldArray, t3lib_TCEmain $pObj) {
 		if (t3lib_div::inList('be_groups,fe_groups', $table)) {
-			$userTable = ($params['table'] === 'be_groups' ? 'be_users' : 'fe_users');
+			$userTable = ($table === 'be_groups' ? 'be_users' : 'fe_users');
 			$users = $this->getAssignedUsers($table, $id);
 			$oldList = array();
 			foreach ($users as $user) {
