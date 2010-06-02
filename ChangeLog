@@ -1,5 +1,6 @@
 2010-06-02  Xavier Perseguers  <typo3@perseguers.ch>
 
+	* Set version to 1.1.0
 	* Fixed user retrieval for be_groups
 
 2010-06-01  Xavier Perseguers  <typo3@perseguers.ch>
