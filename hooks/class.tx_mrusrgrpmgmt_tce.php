@@ -122,7 +122,7 @@ class tx_mrusrgrpmgmt_tce {
 	 * @return array
 	 */
 	protected function getAssignedUsers($table, $groupUid) {
-		$userTable = ($params['table'] === 'be_groups' ? 'be_users' : 'fe_users');
+		$userTable = ($table === 'be_groups' ? 'be_users' : 'fe_users');
 		$users = $GLOBALS['TYPO3_DB']->exec_SELECTgetRows(
 			'uid',
 			$userTable,
