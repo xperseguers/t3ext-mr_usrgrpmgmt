@@ -1,3 +1,7 @@
+2010-08-02  Xavier Persegeurs  <typo3@perseguers.ch>
+
+	* Now using label and sorting information from TCA to retrieve users
+
 2010-06-02  Xavier Perseguers  <typo3@perseguers.ch>
 
 	* Set version to 1.1.0

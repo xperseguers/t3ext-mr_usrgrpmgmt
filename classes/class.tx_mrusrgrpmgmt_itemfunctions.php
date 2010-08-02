@@ -22,6 +22,8 @@
 *  This copyright notice MUST APPEAR in all copies of the script!
 ***************************************************************/
 
+require_once($BACK_PATH . 'class.db_list.inc');
+
 /**
  * TCA helper for extension mr_usrgrpmgmt.
  *
@@ -44,16 +46,17 @@ class tx_mrusrgrpmgmt_itemfunctions {
 	public function users(array &$params, $pObj) {
 		if (t3lib_div::inList('be_groups,fe_groups', $params['table'])) {
 			$userTable = ($params['table'] === 'be_groups' ? 'be_users' : 'fe_users');
-			$users = $GLOBALS['TYPO3_DB']->exec_SELECTgetRows(
-				'uid,username',
-				$userTable,
-				'1=1' . t3lib_BEfunc::deleteClause($userTable),
-				'',
-				'username'
-			);
-			foreach ($users as $user) {
-				$params['items'][] = array($user['username'], $user['uid']);
+			$recordList = t3lib_div::makeInstance('recordList');
+			$recordList->start(0, $userTable, 0);
+			$queryParts = $recordList->makeQueryArray($userTable, 0);
+			$queryParts['WHERE'] = '1=1' . t3lib_BEfunc::deleteClause($userTable);
+
+			$result = $GLOBALS['TYPO3_DB']->exec_SELECT_queryArray($queryParts);
+			while ($row = $GLOBALS['TYPO3_DB']->sql_fetch_assoc($result)) {
+				$label = t3lib_BEfunc::getRecordTitle($userTable, $row);
+				$params['items'][] = array($label, $row['uid']);
 			}
+			$GLOBALS['TYPO3_DB']->sql_free_result($result);
 		}
 	}
 }
