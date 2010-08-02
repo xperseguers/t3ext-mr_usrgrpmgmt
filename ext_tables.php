@@ -18,11 +18,6 @@ $newColumns = array(
 			'size' => '12',
 			'minitems' => '0',
 			'maxitems' => '999',
-			'wizards' => array(
-				'suggest' => array(
-					'type' => 'suggest',
-				),
-			),
 		),
 	),
 );
