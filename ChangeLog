@@ -1,3 +1,7 @@
+2010-08-10  Xavier Perseguers  <typo3@perseguers.ch>
+
+	* Extension should not be loaded in frontend
+
 2010-08-02  Xavier Persegeurs  <typo3@perseguers.ch>
 
 	* Now using label and sorting information from TCA to retrieve users
