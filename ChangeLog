@@ -1,5 +1,6 @@
 2010-08-21  Xavier Perseguers  <typo3@perseguers.ch>
 
+	* Set version to 1.1.1
 	* Fixed inclusion of class.db_list.inc
 
 2010-08-10  Xavier Perseguers  <typo3@perseguers.ch>
