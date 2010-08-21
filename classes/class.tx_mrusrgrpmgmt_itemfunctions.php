@@ -22,7 +22,7 @@
 *  This copyright notice MUST APPEAR in all copies of the script!
 ***************************************************************/
 
-require_once($BACK_PATH . 'class.db_list.inc');
+require_once(PATH_typo3 . 'class.db_list.inc');
 
 /**
  * TCA helper for extension mr_usrgrpmgmt.

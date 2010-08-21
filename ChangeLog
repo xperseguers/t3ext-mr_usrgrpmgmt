@@ -1,3 +1,7 @@
+2010-08-21  Xavier Perseguers  <typo3@perseguers.ch>
+
+	* Fixed inclusion of class.db_list.inc
+
 2010-08-10  Xavier Perseguers  <typo3@perseguers.ch>
 
 	* Extension should not be loaded in frontend
