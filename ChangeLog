@@ -1,3 +1,12 @@
+2012-04-04  Xavier Perseguers  <xavier@causal.ch>
+
+	* [TASK] Add suggest wizard
+	* [TASK] Update copyright year
+
+2011-04-03  Xavier Perseguers  <typo3@perseguers.ch>
+
+	* Fixed double inclusion on some PHP 5.3 systems
+
 2010-08-21  Xavier Perseguers  <typo3@perseguers.ch>
 
 	* Set version to 1.1.1

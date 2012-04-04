@@ -11,11 +11,11 @@
 ########################################################################
 
 $EM_CONF[$_EXTKEY] = array(
-	'title' => 'User Group Management',
-	'description' => 'This is a backend-related extension to manage both backend and frontend users from the edit form of backend/frontend groups. Easily assign users to groups or remove them from groups.',
+	'title' => 'User Group Management (sponsored by hemmer.ch SA)',
+	'description' => 'This is a backend-related extension to manage both Backend and Frontend users from the edit form of Backend/Frontend groups. Easily assign users to groups or remove them from groups.',
 	'category' => 'be',
-	'author' => 'Xavier Perseguers (Hemmer.ch SA)',
-	'author_email' => 'typo3@perseguers.ch',
+	'author' => 'Xavier Perseguers',
+	'author_email' => 'xavier@causal.ch',
 	'shy' => '',
 	'dependencies' => '',
 	'conflicts' => '',
@@ -29,11 +29,11 @@ $EM_CONF[$_EXTKEY] = array(
 	'modify_tables' => '',
 	'clearCacheOnLoad' => 0,
 	'lockType' => '',
-	'author_company' => 'Hemmer.ch SA',
+	'author_company' => 'Causal Sàrl',
 	'version' => '1.1.1',
 	'constraints' => array(
 		'depends' => array(
-			'typo3' => '4.3.0-0.0.0',
+			'typo3' => '4.3.0-4.6.99',
 		),
 		'conflicts' => array(
 		),

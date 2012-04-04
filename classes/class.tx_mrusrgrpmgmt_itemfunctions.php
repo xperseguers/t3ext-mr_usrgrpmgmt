@@ -2,7 +2,7 @@
 /***************************************************************
 *  Copyright notice
 *
-*  (c) 2010 Xavier Perseguers <typo3@perseguers.ch>
+*  (c) 2010-2012 Xavier Perseguers <xavier@causal.ch>
 *  All rights reserved
 *
 *  This script is part of the TYPO3 project. The TYPO3 project is
@@ -22,20 +22,27 @@
 *  This copyright notice MUST APPEAR in all copies of the script!
 ***************************************************************/
 
-require_once(PATH_typo3 . 'class.db_list.inc');
-
 /**
  * TCA helper for extension mr_usrgrpmgmt.
  *
  * @category    TCA
  * @package     TYPO3
  * @subpackage  tx_mrusrgrpmgmt
- * @author      Xavier Perseguers <typo3@perseguers.ch>
- * @copyright   2010 Hemmer.ch SA
+ * @author      Xavier Perseguers <xavier@causal.ch>
+ * @copyright   2010-2012 Causal Sàrl
  * @license     http://www.gnu.org/copyleft/gpl.html
  * @version     SVN: $Id$
  */
 class tx_mrusrgrpmgmt_itemfunctions {
+
+	/**
+	 * Default constructor.
+	 */
+	public function __construct() {
+		if (!class_exists('recordList')) {
+			require_once(PATH_typo3 . 'class.db_list.inc');
+		}
+	}
 
 	/**
 	 * Prepares the list of frontend users.

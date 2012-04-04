@@ -2,7 +2,7 @@
 /***************************************************************
 *  Copyright notice
 *
-*  (c) 2010 Xavier Perseguers <typo3@perseguers.ch>
+*  (c) 2010-2012 Xavier Perseguers <xavier@causal.ch>
 *  All rights reserved
 *
 *  This script is part of the TYPO3 project. The TYPO3 project is
@@ -23,20 +23,20 @@
 ***************************************************************/
 
 /**
- * Hook to preprocess a single field in tceforms and in tcemain.
+ * Hook to pre-process a single field in tceforms and in tcemain.
  *
  * @category    Hooks
  * @package     TYPO3
  * @subpackage  tx_mrusrgrpmgmt
- * @author      Xavier Perseguers <typo3@perseguers.ch>
- * @copyright   2010 Hemmer.ch SA
+ * @author      Xavier Perseguers <xavier@causal.ch>
+ * @copyright   2010-2012 Causal Sàrl
  * @license     http://www.gnu.org/copyleft/gpl.html
  * @version     SVN: $Id$
  */
 class tx_mrusrgrpmgmt_tce {
 
 	/**
-	 * Preprocesses the tceform rendering to specify currently assigned users.
+	 * Pre-processes the tceform rendering to specify currently assigned users.
 	 *
 	 * @param string $table
 	 * @param string $field
@@ -57,7 +57,7 @@ class tx_mrusrgrpmgmt_tce {
 
 	/**
 	 * Updates the group assignment to corresponding user records.
-	 * 
+	 *
 	 * @param string $status
 	 * @param string $table
 	 * @param integer $id
@@ -83,7 +83,7 @@ class tx_mrusrgrpmgmt_tce {
 				$usergroups = t3lib_div::trimExplode(',', $user['usergroup']);
 				$key = array_search($id, $usergroups);
 				unset($usergroups[$key]);
-				
+
 				$GLOBALS['TYPO3_DB']->exec_UPDATEquery(
 					$userTable,
 					'uid=' . $userUid,
@@ -129,7 +129,7 @@ class tx_mrusrgrpmgmt_tce {
 			'CONCAT(CONCAT(\',\', usergroup), \',\') LIKE \'%,' . $groupUid . ',%\'' .
 				t3lib_BEfunc::deleteClause($userTable),
 			'',
-			'username' 
+			'username'
 		);
 		return $users;
 	}
