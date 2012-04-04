@@ -4,41 +4,41 @@
 	* [TASK] Add suggest wizard
 	* [TASK] Update copyright year
 
-2011-04-03  Xavier Perseguers  <typo3@perseguers.ch>
+2011-04-03  Xavier Perseguers  <xavier@causal.ch>
 
-	* Fixed double inclusion on some PHP 5.3 systems
+	* [BUGFIX] Fix double inclusion on some PHP 5.3 systems
 
-2010-08-21  Xavier Perseguers  <typo3@perseguers.ch>
+2010-08-21  Xavier Perseguers  <xavier@causal.ch>
 
-	* Set version to 1.1.1
-	* Fixed inclusion of class.db_list.inc
+	* [TASK] Raise version to 1.1.1
+	* [BUGFIX] Fix inclusion of class.db_list.inc
 
-2010-08-10  Xavier Perseguers  <typo3@perseguers.ch>
+2010-08-10  Xavier Perseguers  <xavier@causal.ch>
 
-	* Extension should not be loaded in frontend
+	* [TASK] Extension should not be loaded in frontend
 
-2010-08-02  Xavier Persegeurs  <typo3@perseguers.ch>
+2010-08-02  Xavier Perseguers  <xavier@causal.ch>
 
-	* Now using label and sorting information from TCA to retrieve users
+	* [TASK] Now using label and sorting information from TCA to retrieve users
 
-2010-06-02  Xavier Perseguers  <typo3@perseguers.ch>
+2010-06-02  Xavier Perseguers  <xavier@causal.ch>
 
-	* Set version to 1.1.0
-	* Fixed user retrieval for be_groups
+	* [TASK] Raise version to 1.1.0
+	* [BUGFIX] Fix user retrieval for be_groups
 
-2010-06-01  Xavier Perseguers  <typo3@perseguers.ch>
+2010-06-01  Xavier Perseguers  <xavier@causal.ch>
 
-	* Fixed documentation layout
+	* [BUGFIX][DOC] Fix documentation layout
 
-2010-05-31  Xavier Perseguers  <typo3@perseguers.ch>
+2010-05-31  Xavier Perseguers  <xavier@causal.ch>
 
-	* Sorted list of users (assigned and available)
+	* [FEATURE] Sorted list of users (assigned and available)
 
-2010-05-31  Xavier Perseguers  <typo3@perseguers.ch>
+2010-05-31  Xavier Perseguers  <xavier@causal.ch>
 
-	* Set version to 1.0.0 (stable)
-	* Added documentation
+	* [TASK] Raise version to 1.0.0 (stable)
+	* [TASK][DOC] Add documentation
 
-2010-05-28  Xavier Perseguers  <typo3@perseguers.ch>
+2010-05-28  Xavier Perseguers  <xavier@causal.ch>
 
-	* Extension kickstarted
+	* [TASK] Kickstart extension
