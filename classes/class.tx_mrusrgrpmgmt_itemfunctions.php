@@ -2,7 +2,7 @@
 /***************************************************************
 *  Copyright notice
 *
-*  (c) 2010-2012 Xavier Perseguers <xavier@causal.ch>
+*  (c) 2010-2013 Xavier Perseguers <xavier@causal.ch>
 *  All rights reserved
 *
 *  This script is part of the TYPO3 project. The TYPO3 project is
@@ -29,7 +29,7 @@
  * @package     TYPO3
  * @subpackage  tx_mrusrgrpmgmt
  * @author      Xavier Perseguers <xavier@causal.ch>
- * @copyright   2010-2012 Causal Sàrl
+ * @copyright   2010-2013 Causal Sàrl
  * @license     http://www.gnu.org/copyleft/gpl.html
  * @version     SVN: $Id$
  */
@@ -59,7 +59,7 @@ class tx_mrusrgrpmgmt_itemfunctions {
 			$queryParts['WHERE'] = '1=1' . t3lib_BEfunc::deleteClause($userTable);
 
 			$result = $GLOBALS['TYPO3_DB']->exec_SELECT_queryArray($queryParts);
-			while ($row = $GLOBALS['TYPO3_DB']->sql_fetch_assoc($result)) {
+			while (($row = $GLOBALS['TYPO3_DB']->sql_fetch_assoc($result)) !== FALSE) {
 				$label = t3lib_BEfunc::getRecordTitle($userTable, $row);
 				$params['items'][] = array($label, $row['uid']);
 			}
@@ -69,8 +69,6 @@ class tx_mrusrgrpmgmt_itemfunctions {
 }
 
 
-if (defined('TYPO3_MODE') && $TYPO3_CONF_VARS[TYPO3_MODE]['XCLASS']['ext/mr_usrgrpmgmt/classes/class.tx_mrusrgrpmgmt_itemfunctions.php']) {
-	include_once($TYPO3_CONF_VARS[TYPO3_MODE]['XCLASS']['ext/mr_usrgrpmgmt/classes/class.tx_mrusrgrpmgmt_itemfunctions.php']);
+if (defined('TYPO3_MODE') && isset($GLOBALS['TYPO3_CONF_VARS'][TYPO3_MODE]['XCLASS']['ext/mr_usrgrpmgmt/classes/class.tx_mrusrgrpmgmt_itemfunctions.php'])) {
+	include_once($GLOBALS['TYPO3_CONF_VARS'][TYPO3_MODE]['XCLASS']['ext/mr_usrgrpmgmt/classes/class.tx_mrusrgrpmgmt_itemfunctions.php']);
 }
-
-?>

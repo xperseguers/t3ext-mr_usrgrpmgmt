@@ -2,7 +2,7 @@
 /***************************************************************
 *  Copyright notice
 *
-*  (c) 2010-2012 Xavier Perseguers <xavier@causal.ch>
+*  (c) 2010-2013 Xavier Perseguers <xavier@causal.ch>
 *  All rights reserved
 *
 *  This script is part of the TYPO3 project. The TYPO3 project is
@@ -29,11 +29,13 @@
  * @package     TYPO3
  * @subpackage  tx_mrusrgrpmgmt
  * @author      Xavier Perseguers <xavier@causal.ch>
- * @copyright   2010-2012 Causal Sàrl
+ * @copyright   2010-2013 Causal Sàrl
  * @license     http://www.gnu.org/copyleft/gpl.html
  * @version     SVN: $Id$
  */
 class tx_mrusrgrpmgmt_tce {
+
+	protected $backupVirtualColumn;
 
 	/**
 	 * Pre-processes the tceform rendering to specify currently assigned users.
@@ -58,14 +60,13 @@ class tx_mrusrgrpmgmt_tce {
 	/**
 	 * Updates the group assignment to corresponding user records.
 	 *
-	 * @param string $status
+	 * @param array $incomingFieldArray
 	 * @param string $table
-	 * @param integer $id
-	 * @param array $fieldArray
+	 * @param integer|string $id
 	 * @param t3lib_TCEmain $pObj
 	 * @return void
 	 */
-	public function processDatamap_postProcessFieldArray($status, $table, $id, array &$fieldArray, t3lib_TCEmain $pObj) {
+	public function processDatamap_preProcessFieldArray(array &$incomingFieldArray, $table, $id, t3lib_TCEmain $pObj) {
 		if (t3lib_div::inList('be_groups,fe_groups', $table)) {
 			$userTable = ($table === 'be_groups' ? 'be_users' : 'fe_users');
 			$users = $this->getAssignedUsers($table, $id);
@@ -73,12 +74,15 @@ class tx_mrusrgrpmgmt_tce {
 			foreach ($users as $user) {
 				$oldList[] = $user['uid'];
 			}
-			$newList = t3lib_div::trimExplode(',', $fieldArray['tx_mrusrgrpmgmt_users']);
+			$newList = t3lib_div::trimExplode(',', $incomingFieldArray['tx_mrusrgrpmgmt_users']);
 			$removedUids = array_diff($oldList, $newList);
 			$addedUids = array_diff($newList, $oldList);
 
-				// Remove users that are not member anymore of the group
+			// Remove users that are not member anymore of the group
 			foreach ($removedUids as $userUid) {
+				if (!$userUid) {
+					continue;
+				}
 				$user = t3lib_BEfunc::getRecord($userTable, $userUid);
 				$usergroups = t3lib_div::trimExplode(',', $user['usergroup']);
 				$key = array_search($id, $usergroups);
@@ -93,8 +97,15 @@ class tx_mrusrgrpmgmt_tce {
 				);
 			}
 
-				// Add users that are now member of the group
+			// Add users that are now member of the group
 			foreach ($addedUids as $userUid) {
+				if (!$userUid) {
+					continue;
+				}
+				if (t3lib_div::isFirstPartOfStr($userUid, $userTable . '_')) {
+					// New member is coming from suggest field
+					$userUid = substr($userUid, strlen($userTable . '_'));
+				}
 				$user = t3lib_BEfunc::getRecord($userTable, $userUid);
 				$usergroups = t3lib_div::trimExplode(',', $user['usergroup']);
 				$usergroups[] = $id;
@@ -108,9 +119,9 @@ class tx_mrusrgrpmgmt_tce {
 				);
 			}
 
-				// Remove virtual user column to prevent TYPO3 from
-				// trying to save content to this non-existing column
-			unset($fieldArray['tx_mrusrgrpmgmt_users']);
+			// Remove virtual user column to prevent TYPO3 from
+			// trying to save content to this non-existing column
+			unset($incomingFieldArray['tx_mrusrgrpmgmt_users']);
 		}
 	}
 
@@ -137,8 +148,6 @@ class tx_mrusrgrpmgmt_tce {
 }
 
 
-if (defined('TYPO3_MODE') && $TYPO3_CONF_VARS[TYPO3_MODE]['XCLASS']['ext/mr_usrgrpmgmt/hooks/class.tx_mrusrgrpmgmt_tce.php']) {
-	include_once($TYPO3_CONF_VARS[TYPO3_MODE]['XCLASS']['ext/mr_usrgrpmgmt/hooks/class.tx_mrusrgrpmgmt_tce.php']);
+if (defined('TYPO3_MODE') && isset($GLOBALS['TYPO3_CONF_VARS'][TYPO3_MODE]['XCLASS']['ext/mr_usrgrpmgmt/hooks/class.tx_mrusrgrpmgmt_tce.php'])) {
+	include_once($GLOBALS['TYPO3_CONF_VARS'][TYPO3_MODE]['XCLASS']['ext/mr_usrgrpmgmt/hooks/class.tx_mrusrgrpmgmt_tce.php']);
 }
-
-?>
