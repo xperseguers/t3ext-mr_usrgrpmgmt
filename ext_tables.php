@@ -1,7 +1,5 @@
 <?php
-if (!defined('TYPO3_MODE')) {
-	die('Access denied.');
-}
+defined('TYPO3_MODE') or die();
 
 $config = unserialize($TYPO3_CONF_VARS['EXT']['extConf'][$_EXTKEY]);
 $manageUsers = FALSE;
@@ -37,7 +35,7 @@ foreach ($tables as $table) {
 		t3lib_div::loadTCA($table);
 	}
 	$newColumns['tx_mrusrgrpmgmt_users']['config']['allowed'] = ($table == 'be_groups' ? 'be_users' : 'fe_users');
-	t3lib_extMgm::addTCAcolumns($table, $newColumns, 1);
+	t3lib_extMgm::addTCAcolumns($table, $newColumns);
 	t3lib_extMgm::addToAllTCAtypes($table, 'tx_mrusrgrpmgmt_users;;;;1-1-1', '','after:subgroup');
 
 	$manageUsers = TRUE;
@@ -50,4 +48,3 @@ if ($manageUsers) {
 
 	include_once(t3lib_extMgm::extPath($_EXTKEY) . 'classes/class.tx_mrusrgrpmgmt_itemfunctions.php');
 }
-?>

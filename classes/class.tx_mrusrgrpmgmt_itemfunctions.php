@@ -2,7 +2,7 @@
 /***************************************************************
 *  Copyright notice
 *
-*  (c) 2010-2013 Xavier Perseguers <xavier@causal.ch>
+*  (c) 2010-2015 Xavier Perseguers <xavier@causal.ch>
 *  All rights reserved
 *
 *  This script is part of the TYPO3 project. The TYPO3 project is
@@ -29,9 +29,8 @@
  * @package     TYPO3
  * @subpackage  tx_mrusrgrpmgmt
  * @author      Xavier Perseguers <xavier@causal.ch>
- * @copyright   2010-2013 Causal Sàrl
+ * @copyright   2010-2015 Causal Sàrl
  * @license     http://www.gnu.org/copyleft/gpl.html
- * @version     SVN: $Id$
  */
 class tx_mrusrgrpmgmt_itemfunctions {
 
