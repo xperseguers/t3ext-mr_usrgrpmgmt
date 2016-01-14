@@ -50,6 +50,12 @@ EXT: User Group Management
     a GNU/GPL CMS/Framework available from `www.typo3.org <https://typo3.org/>`__.
 
 
+    **Other version of this document**
+
+    :PDF:
+        https://docs.typo3.org/typo3cms/extensions/mr_usrgrpmgmt/1.2.0/_pdf/
+
+
     **Table of Contents**
 
 .. toctree::
