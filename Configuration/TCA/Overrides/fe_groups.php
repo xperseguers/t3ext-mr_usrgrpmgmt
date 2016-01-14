@@ -9,7 +9,7 @@ if (!isset($configuration['fe_groups']) || (bool)$configuration['fe_groups']) {
         'tx_mrusrgrpmgmt_users' => array(
             'displayCond' => 'REC:NEW:false',
             'exclude' => 1,
-            'label' => 'LLL:EXT:' . $_EXTKEY . '/Resources/Private/Language/locallang_tca.xlf:groups.tx_mrusrgrpmgmt_users',
+            'label' => 'LLL:EXT:mr_usrgrpmgmt/Resources/Private/Language/locallang_tca.xlf:groups.tx_mrusrgrpmgmt_users',
             'config' => array(
                 'type' => 'select',
                 'itemsProcFunc' => 'Causal\\MrUsrgrpmgmt\\Tca\\ItemFunctions->users',
