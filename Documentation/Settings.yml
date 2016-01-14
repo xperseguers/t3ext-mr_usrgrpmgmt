@@ -7,7 +7,7 @@ conf.py:
   copyright: 2010-2016
   project: User Group Management
   version: 1.2
-  release: 1.2.0
+  release: 1.2.1-dev
   latex_documents:
   - - Index
     - mr_usrgrpmgmt.tex
