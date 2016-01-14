@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<xliff version="1.0">
+	<file source-language="en" target-language="fr" datatype="plaintext" original="messages" date="2016-01-14T09:20:40Z" product-name="mr_usrgrpmgmt">
+		<header/>
+		<body>
+			<trans-unit id="groups.tx_mrusrgrpmgmt_users">
+				<source>Users:</source>
+				<target>Utilisateurs :</target>
+			</trans-unit>
+		</body>
+	</file>
+</xliff>

@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<xliff version="1.0">
+	<file source-language="en" datatype="plaintext" original="messages" date="2016-01-14T09:16:41Z" product-name="mr_usrgrpmgmt">
+		<header/>
+		<body>
+			<trans-unit id="management.be_groups">
+				<source>Backend Group User Management: Whether users may be managed for backend groups.</source>
+			</trans-unit>
+			<trans-unit id="management.fe_groups">
+				<source>Frontend Group User Management: Whether users may be managed for frontend groups.</source>
+			</trans-unit>
+		</body>
+	</file>
+</xliff>

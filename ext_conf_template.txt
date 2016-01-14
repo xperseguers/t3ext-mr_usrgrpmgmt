@@ -1,5 +1,5 @@
-	# cat=basic/enable; type=boolean; label=LLL:EXT:mr_usrgrpmgmt/locallang.xml:management.be_groups
+# cat=basic/enable; type=boolean; label=LLL:EXT:mr_usrgrpmgmt/Resources/Private/Language/locallang.xlf:management.be_groups
 be_groups = 1
 
-	# cat=basic/enable; type=boolean; label=LLL:EXT:mr_usrgrpmgmt/locallang.xml:management.fe_groups
+# cat=basic/enable; type=boolean; label=LLL:EXT:mr_usrgrpmgmt/Resources/Private/Language/locallang.xlf:management.fe_groups
 fe_groups = 1
