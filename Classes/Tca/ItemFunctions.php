@@ -39,7 +39,8 @@ class ItemFunctions {
 		if (GeneralUtility::inList('be_groups,fe_groups', $params['table'])) {
 			$databaseConnection = $this->getDatabaseConnection();
 			$userTable = ($params['table'] === 'be_groups' ? 'be_users' : 'fe_users');
-			$recordList = GeneralUtility::makeInstance('recordList');
+			/** @var \TYPO3\CMS\Recordlist\RecordList\AbstractDatabaseRecordList $recordList */
+			$recordList = GeneralUtility::makeInstance('TYPO3\\CMS\\Recordlist\\RecordList\\AbstractDatabaseRecordList');
 			$recordList->start(0, $userTable, 0);
 			$queryParts = $recordList->makeQueryArray($userTable, 0);
 			$queryParts['WHERE'] = '1=1' . BackendUtility::deleteClause($userTable);
