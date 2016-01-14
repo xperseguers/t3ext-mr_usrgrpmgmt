@@ -13,7 +13,7 @@ $boot = function ($_EXTKEY) {
             'label' => 'LLL:EXT:' . $_EXTKEY . '/Resources/Private/Language/locallang_tca.xlf:groups.tx_mrusrgrpmgmt_users',
             'config' => array(
                 'type' => 'select',
-                'itemsProcFunc' => 'Causal\\MrUsrgrpmgmt\\ItemFunctions->users',
+                'itemsProcFunc' => 'Causal\\MrUsrgrpmgmt\\Tca\\ItemFunctions->users',
                 'size' => '12',
                 'minitems' => '0',
                 'maxitems' => '999',
@@ -41,8 +41,8 @@ $boot = function ($_EXTKEY) {
 
     if ($manageUsers) {
         // Register hooks into \TYPO3\CMS\Backend\Form\FormEngine and \TYPO3\CMS\Core\DataHandling\DataHandler
-        $GLOBALS['TYPO3_CONF_VARS']['SC_OPTIONS']['t3lib/class.t3lib_tceforms.php']['getSingleFieldClass'][] = 'EXT:' . $_EXTKEY . '/Classes/Hooks/DataHandler.php:Causal\\MrUsrgrpmgmt\\FormEngine';
-        $GLOBALS['TYPO3_CONF_VARS']['SC_OPTIONS']['t3lib/class.t3lib_tcemain.php']['processDatamapClass'][] = 'EXT:' . $_EXTKEY . '/Classes/Hooks/DataHandler.php:Causal\\MrUsrgrpmgmt\\DataHandler';
+        $GLOBALS['TYPO3_CONF_VARS']['SC_OPTIONS']['t3lib/class.t3lib_tceforms.php']['getSingleFieldClass'][] = 'EXT:' . $_EXTKEY . '/Classes/Hooks/DataHandler.php:Causal\\MrUsrgrpmgmt\\Hooks\\FormEngine';
+        $GLOBALS['TYPO3_CONF_VARS']['SC_OPTIONS']['t3lib/class.t3lib_tcemain.php']['processDatamapClass'][] = 'EXT:' . $_EXTKEY . '/Classes/Hooks/DataHandler.php:Causal\\MrUsrgrpmgmt\\Hooks\\DataHandler';
     }
 
 };
