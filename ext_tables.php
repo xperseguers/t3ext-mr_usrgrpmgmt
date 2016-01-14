@@ -1,5 +1,5 @@
 <?php
-defined('TYPO3_MODE') or die();
+defined('TYPO3_MODE') || die();
 
 $config = unserialize($TYPO3_CONF_VARS['EXT']['extConf'][$_EXTKEY]);
 $manageUsers = FALSE;
@@ -31,12 +31,9 @@ foreach ($tables as $table) {
 	if (isset($config[$table]) && !$config[$table]) {
 		continue;
 	}
-	if (version_compare(TYPO3_version, '6.0.0', '<')) {
-		t3lib_div::loadTCA($table);
-	}
-	$newColumns['tx_mrusrgrpmgmt_users']['config']['allowed'] = ($table == 'be_groups' ? 'be_users' : 'fe_users');
-	t3lib_extMgm::addTCAcolumns($table, $newColumns);
-	t3lib_extMgm::addToAllTCAtypes($table, 'tx_mrusrgrpmgmt_users;;;;1-1-1', '','after:subgroup');
+	$newColumns['tx_mrusrgrpmgmt_users']['config']['allowed'] = ($table === 'be_groups' ? 'be_users' : 'fe_users');
+	\TYPO3\CMS\Core\Utility\ExtensionManagementUtility::addTCAcolumns($table, $newColumns);
+	\TYPO3\CMS\Core\Utility\ExtensionManagementUtility::addToAllTCAtypes($table, 'tx_mrusrgrpmgmt_users;;;;1-1-1', '','after:subgroup');
 
 	$manageUsers = TRUE;
 }
@@ -46,5 +43,5 @@ if ($manageUsers) {
 	$GLOBALS['TYPO3_CONF_VARS']['SC_OPTIONS']['t3lib/class.t3lib_tceforms.php']['getSingleFieldClass'][] = 'EXT:' . $_EXTKEY . '/hooks/class.tx_mrusrgrpmgmt_tce.php:tx_mrusrgrpmgmt_tce';
 	$GLOBALS['TYPO3_CONF_VARS']['SC_OPTIONS']['t3lib/class.t3lib_tcemain.php']['processDatamapClass'][] = 'EXT:' . $_EXTKEY . '/hooks/class.tx_mrusrgrpmgmt_tce.php:tx_mrusrgrpmgmt_tce';
 
-	include_once(t3lib_extMgm::extPath($_EXTKEY) . 'classes/class.tx_mrusrgrpmgmt_itemfunctions.php');
+	include_once(\TYPO3\CMS\Core\Utility\ExtensionManagementUtility::extPath($_EXTKEY) . 'classes/class.tx_mrusrgrpmgmt_itemfunctions.php');
 }

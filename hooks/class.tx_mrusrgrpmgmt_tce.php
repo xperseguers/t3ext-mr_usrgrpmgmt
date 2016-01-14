@@ -1,26 +1,16 @@
 <?php
-/***************************************************************
-*  Copyright notice
-*
-*  (c) 2010-2015 Xavier Perseguers <xavier@causal.ch>
-*  All rights reserved
-*
-*  This script is part of the TYPO3 project. The TYPO3 project is
-*  free software; you can redistribute it and/or modify
-*  it under the terms of the GNU General Public License as published by
-*  the Free Software Foundation; either version 2 of the License, or
-*  (at your option) any later version.
-*
-*  The GNU General Public License can be found at
-*  http://www.gnu.org/copyleft/gpl.html.
-*
-*  This script is distributed in the hope that it will be useful,
-*  but WITHOUT ANY WARRANTY; without even the implied warranty of
-*  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-*  GNU General Public License for more details.
-*
-*  This copyright notice MUST APPEAR in all copies of the script!
-***************************************************************/
+/*
+ * This file is part of the TYPO3 CMS project.
+ *
+ * It is free software; you can redistribute it and/or modify it under
+ * the terms of the GNU General Public License, either version 2
+ * of the License, or any later version.
+ *
+ * For the full copyright and license information, please read the
+ * LICENSE.txt file that was distributed with this source code.
+ *
+ * The TYPO3 project - inspiring people to share!
+ */
 
 /**
  * Hook to pre-process a single field in tceforms and in tcemain.
@@ -29,7 +19,7 @@
  * @package     TYPO3
  * @subpackage  tx_mrusrgrpmgmt
  * @author      Xavier Perseguers <xavier@causal.ch>
- * @copyright   2010-2015 Causal Sàrl
+ * @copyright   2010-2016 Causal Sàrl
  * @license     http://www.gnu.org/copyleft/gpl.html
  */
 class tx_mrusrgrpmgmt_tce {
@@ -46,7 +36,7 @@ class tx_mrusrgrpmgmt_tce {
 	 * @return void
 	 */
 	public function getSingleField_beforeRender($table, $field, array $row, array &$PA) {
-		if (t3lib_div::inList('be_groups,fe_groups', $table) && $field === 'tx_mrusrgrpmgmt_users') {
+		if (\TYPO3\CMS\Core\Utility\GeneralUtility::inList('be_groups,fe_groups', $table) && $field === 'tx_mrusrgrpmgmt_users') {
 			$users = $this->getAssignedUsers($table, $row['uid']);
 			$list = array();
 			foreach ($users as $user) {
@@ -61,19 +51,19 @@ class tx_mrusrgrpmgmt_tce {
 	 *
 	 * @param array $incomingFieldArray
 	 * @param string $table
-	 * @param integer|string $id
-	 * @param t3lib_TCEmain $pObj
+	 * @param int|string $id
+	 * @param \TYPO3\CMS\Core\DataHandling\DataHandler $pObj
 	 * @return void
 	 */
-	public function processDatamap_preProcessFieldArray(array &$incomingFieldArray, $table, $id, t3lib_TCEmain $pObj) {
-		if (t3lib_div::inList('be_groups,fe_groups', $table)) {
+	public function processDatamap_preProcessFieldArray(array &$incomingFieldArray, $table, $id, \TYPO3\CMS\Core\DataHandling\DataHandler $pObj) {
+		if (\TYPO3\CMS\Core\Utility\GeneralUtility::inList('be_groups,fe_groups', $table)) {
 			$userTable = ($table === 'be_groups' ? 'be_users' : 'fe_users');
 			$users = $this->getAssignedUsers($table, $id);
 			$oldList = array();
 			foreach ($users as $user) {
 				$oldList[] = $user['uid'];
 			}
-			$newList = t3lib_div::trimExplode(',', $incomingFieldArray['tx_mrusrgrpmgmt_users']);
+			$newList = \TYPO3\CMS\Core\Utility\GeneralUtility::trimExplode(',', $incomingFieldArray['tx_mrusrgrpmgmt_users']);
 			$removedUids = array_diff($oldList, $newList);
 			$addedUids = array_diff($newList, $oldList);
 
@@ -82,8 +72,8 @@ class tx_mrusrgrpmgmt_tce {
 				if (!$userUid) {
 					continue;
 				}
-				$user = t3lib_BEfunc::getRecord($userTable, $userUid);
-				$usergroups = t3lib_div::trimExplode(',', $user['usergroup']);
+				$user = \TYPO3\CMS\Backend\Utility\BackendUtility::getRecord($userTable, $userUid);
+				$usergroups = \TYPO3\CMS\Core\Utility\GeneralUtility::trimExplode(',', $user['usergroup']);
 				$key = array_search($id, $usergroups);
 				unset($usergroups[$key]);
 
@@ -101,12 +91,12 @@ class tx_mrusrgrpmgmt_tce {
 				if (!$userUid) {
 					continue;
 				}
-				if (t3lib_div::isFirstPartOfStr($userUid, $userTable . '_')) {
+				if (\TYPO3\CMS\Core\Utility\GeneralUtility::isFirstPartOfStr($userUid, $userTable . '_')) {
 					// New member is coming from suggest field
 					$userUid = substr($userUid, strlen($userTable . '_'));
 				}
-				$user = t3lib_BEfunc::getRecord($userTable, $userUid);
-				$usergroups = t3lib_div::trimExplode(',', $user['usergroup']);
+				$user = \TYPO3\CMS\Backend\Utility\BackendUtility::getRecord($userTable, $userUid);
+				$usergroups = \TYPO3\CMS\Core\Utility\GeneralUtility::trimExplode(',', $user['usergroup']);
 				$usergroups[] = $id;
 
 				$GLOBALS['TYPO3_DB']->exec_UPDATEquery(
@@ -137,16 +127,11 @@ class tx_mrusrgrpmgmt_tce {
 			'uid',
 			$userTable,
 			'CONCAT(CONCAT(\',\', usergroup), \',\') LIKE \'%,' . $groupUid . ',%\'' .
-				t3lib_BEfunc::deleteClause($userTable),
+				\TYPO3\CMS\Backend\Utility\BackendUtility::deleteClause($userTable),
 			'',
 			'username'
 		);
 		return $users;
 	}
 
-}
-
-
-if (defined('TYPO3_MODE') && isset($GLOBALS['TYPO3_CONF_VARS'][TYPO3_MODE]['XCLASS']['ext/mr_usrgrpmgmt/hooks/class.tx_mrusrgrpmgmt_tce.php'])) {
-	include_once($GLOBALS['TYPO3_CONF_VARS'][TYPO3_MODE]['XCLASS']['ext/mr_usrgrpmgmt/hooks/class.tx_mrusrgrpmgmt_tce.php']);
 }
