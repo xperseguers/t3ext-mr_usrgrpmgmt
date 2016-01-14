@@ -12,7 +12,7 @@
 
 $EM_CONF[$_EXTKEY] = array(
 	'title' => 'User Group Management',
-	'description' => 'This is a backend-related extension to manage both Backend and Frontend users from the edit form of Backend/Frontend groups. Easily assign users to groups or remove them from groups.',
+	'description' => 'This is a Backend-related extension to manage both Backend and Frontend users from the edit form of Backend/Frontend groups. Easily assign users to groups or remove them from groups.',
 	'category' => 'be',
 	'author' => 'Xavier Perseguers',
 	'author_email' => 'xavier@causal.ch',
