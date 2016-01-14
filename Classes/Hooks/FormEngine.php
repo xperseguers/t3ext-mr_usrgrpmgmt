@@ -27,55 +27,60 @@ use TYPO3\CMS\Backend\Utility\BackendUtility;
  * @copyright   2010-2016 Causal Sàrl
  * @license     http://www.gnu.org/copyleft/gpl.html
  */
-class FormEngine {
+class FormEngine
+{
 
-	/**
-	 * Pre-processes the tceform rendering to specify currently assigned users.
-	 *
-	 * @param string $table
-	 * @param string $field
-	 * @param array $row
-	 * @param array $PA
-	 * @return void
-	 */
-	public function getSingleField_beforeRender($table, $field, array $row, array &$PA) {
-		if (GeneralUtility::inList('be_groups,fe_groups', $table) && $field === 'tx_mrusrgrpmgmt_users') {
-			$users = $this->getAssignedUsers($table, $row['uid']);
-			$list = array();
-			foreach ($users as $user) {
-				$list[] = $user['uid'];
-			}
-			$PA['itemFormElValue'] = implode(',', $list);
-		}
-	}
+    /**
+     * Pre-processes the tceform rendering to specify currently assigned users.
+     *
+     * @param string $table
+     * @param string $field
+     * @param array $row
+     * @param array $PA
+     * @return void
+     */
+    public function getSingleField_beforeRender($table, $field, array $row, array &$PA)
+    {
+        if (GeneralUtility::inList('be_groups,fe_groups', $table) && $field === 'tx_mrusrgrpmgmt_users') {
+            $users = $this->getAssignedUsers($table, $row['uid']);
+            $list = array();
+            foreach ($users as $user) {
+                $list[] = $user['uid'];
+            }
+            $PA['itemFormElValue'] = implode(',', $list);
+        }
+    }
 
-	/**
-	 * Returns the users assigned to a given group.
-	 *
-	 * @param string $table
-	 * @param integer $groupUid
-	 * @return array
-	 */
-	protected function getAssignedUsers($table, $groupUid) {
-		$userTable = ($table === 'be_groups' ? 'be_users' : 'fe_users');
-		$users = $this->getDatabaseConnection()->exec_SELECTgetRows(
-			'uid',
-			$userTable,
-			'CONCAT(CONCAT(\',\', usergroup), \',\') LIKE \'%,' . $groupUid . ',%\'' .
-				BackendUtility::deleteClause($userTable),
-			'',
-			'username'
-		);
-		return $users;
-	}
+    /**
+     * Returns the users assigned to a given group.
+     *
+     * @param string $table
+     * @param integer $groupUid
+     * @return array
+     */
+    protected function getAssignedUsers($table, $groupUid)
+    {
+        $userTable = ($table === 'be_groups' ? 'be_users' : 'fe_users');
+        $users = $this->getDatabaseConnection()->exec_SELECTgetRows(
+            'uid',
+            $userTable,
+            'CONCAT(CONCAT(\',\', usergroup), \',\') LIKE \'%,' . $groupUid . ',%\'' .
+            BackendUtility::deleteClause($userTable),
+            '',
+            'username'
+        );
 
-	/**
-	 * Returns the database connection.
-	 *
-	 * @return \TYPO3\CMS\Core\Database\DatabaseConnection
-	 */
-	protected function getDatabaseConnection() {
-		return $GLOBALS['TYPO3_DB'];
-	}
+        return $users;
+    }
+
+    /**
+     * Returns the database connection.
+     *
+     * @return \TYPO3\CMS\Core\Database\DatabaseConnection
+     */
+    protected function getDatabaseConnection()
+    {
+        return $GLOBALS['TYPO3_DB'];
+    }
 
 }
