@@ -12,8 +12,13 @@
  * The TYPO3 project - inspiring people to share!
  */
 
+namespace Causal\MrUsrgrpmgmt;
+
+use TYPO3\CMS\Core\Utility\GeneralUtility;
+use TYPO3\CMS\Backend\Utility\BackendUtility;
+
 /**
- * Hook to pre-process a single field in tceforms and in tcemain.
+ * Hook to pre-process a single field in \TYPO3\CMS\Core\DataHandling\DataHandler.
  *
  * @category    Hooks
  * @package     TYPO3
@@ -22,29 +27,7 @@
  * @copyright   2010-2016 Causal Sàrl
  * @license     http://www.gnu.org/copyleft/gpl.html
  */
-class tx_mrusrgrpmgmt_tce {
-
-	protected $backupVirtualColumn;
-
-	/**
-	 * Pre-processes the tceform rendering to specify currently assigned users.
-	 *
-	 * @param string $table
-	 * @param string $field
-	 * @param array $row
-	 * @param array $PA
-	 * @return void
-	 */
-	public function getSingleField_beforeRender($table, $field, array $row, array &$PA) {
-		if (\TYPO3\CMS\Core\Utility\GeneralUtility::inList('be_groups,fe_groups', $table) && $field === 'tx_mrusrgrpmgmt_users') {
-			$users = $this->getAssignedUsers($table, $row['uid']);
-			$list = array();
-			foreach ($users as $user) {
-				$list[] = $user['uid'];
-			}
-			$PA['itemFormElValue'] = implode(',', $list);
-		}
-	}
+class DataHandler {
 
 	/**
 	 * Updates the group assignment to corresponding user records.
@@ -56,7 +39,7 @@ class tx_mrusrgrpmgmt_tce {
 	 * @return void
 	 */
 	public function processDatamap_preProcessFieldArray(array &$incomingFieldArray, $table, $id, \TYPO3\CMS\Core\DataHandling\DataHandler $pObj) {
-		if (\TYPO3\CMS\Core\Utility\GeneralUtility::inList('be_groups,fe_groups', $table)) {
+		if (GeneralUtility::inList('be_groups,fe_groups', $table)) {
 			$userTable = ($table === 'be_groups' ? 'be_users' : 'fe_users');
 			$users = $this->getAssignedUsers($table, $id);
 			$oldList = array();
@@ -72,12 +55,12 @@ class tx_mrusrgrpmgmt_tce {
 				if (!$userUid) {
 					continue;
 				}
-				$user = \TYPO3\CMS\Backend\Utility\BackendUtility::getRecord($userTable, $userUid);
-				$usergroups = \TYPO3\CMS\Core\Utility\GeneralUtility::trimExplode(',', $user['usergroup']);
+				$user = BackendUtility::getRecord($userTable, $userUid);
+				$usergroups = GeneralUtility::trimExplode(',', $user['usergroup']);
 				$key = array_search($id, $usergroups);
 				unset($usergroups[$key]);
 
-				$GLOBALS['TYPO3_DB']->exec_UPDATEquery(
+				$this->getDatabaseConnection()->exec_UPDATEquery(
 					$userTable,
 					'uid=' . $userUid,
 					array(
@@ -91,15 +74,15 @@ class tx_mrusrgrpmgmt_tce {
 				if (!$userUid) {
 					continue;
 				}
-				if (\TYPO3\CMS\Core\Utility\GeneralUtility::isFirstPartOfStr($userUid, $userTable . '_')) {
+				if (GeneralUtility::isFirstPartOfStr($userUid, $userTable . '_')) {
 					// New member is coming from suggest field
 					$userUid = substr($userUid, strlen($userTable . '_'));
 				}
-				$user = \TYPO3\CMS\Backend\Utility\BackendUtility::getRecord($userTable, $userUid);
-				$usergroups = \TYPO3\CMS\Core\Utility\GeneralUtility::trimExplode(',', $user['usergroup']);
+				$user = BackendUtility::getRecord($userTable, $userUid);
+				$usergroups = GeneralUtility::trimExplode(',', $user['usergroup']);
 				$usergroups[] = $id;
 
-				$GLOBALS['TYPO3_DB']->exec_UPDATEquery(
+				$this->getDatabaseConnection()->exec_UPDATEquery(
 					$userTable,
 					'uid=' . $userUid,
 					array(
@@ -123,15 +106,24 @@ class tx_mrusrgrpmgmt_tce {
 	 */
 	protected function getAssignedUsers($table, $groupUid) {
 		$userTable = ($table === 'be_groups' ? 'be_users' : 'fe_users');
-		$users = $GLOBALS['TYPO3_DB']->exec_SELECTgetRows(
+		$users = $this->getDatabaseConnection()->exec_SELECTgetRows(
 			'uid',
 			$userTable,
 			'CONCAT(CONCAT(\',\', usergroup), \',\') LIKE \'%,' . $groupUid . ',%\'' .
-				\TYPO3\CMS\Backend\Utility\BackendUtility::deleteClause($userTable),
+				BackendUtility::deleteClause($userTable),
 			'',
 			'username'
 		);
 		return $users;
+	}
+
+	/**
+	 * Returns the database connection.
+	 *
+	 * @return \TYPO3\CMS\Core\Database\DatabaseConnection
+	 */
+	protected function getDatabaseConnection() {
+		return $GLOBALS['TYPO3_DB'];
 	}
 
 }

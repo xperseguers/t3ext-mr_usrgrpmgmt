@@ -12,6 +12,11 @@
  * The TYPO3 project - inspiring people to share!
  */
 
+namespace Causal\MrUsrgrpmgmt;
+
+use TYPO3\CMS\Core\Utility\GeneralUtility;
+use TYPO3\CMS\Backend\Utility\BackendUtility;
+
 /**
  * TCA helper for extension mr_usrgrpmgmt.
  *
@@ -22,7 +27,7 @@
  * @copyright   2010-2016 Causal Sàrl
  * @license     http://www.gnu.org/copyleft/gpl.html
  */
-class tx_mrusrgrpmgmt_itemfunctions {
+class ItemFunctions {
 
 	/**
 	 * Prepares the list of frontend users.
@@ -31,19 +36,30 @@ class tx_mrusrgrpmgmt_itemfunctions {
 	 * @param object $pObj
 	 */
 	public function users(array &$params, $pObj) {
-		if (\TYPO3\CMS\Core\Utility\GeneralUtility::inList('be_groups,fe_groups', $params['table'])) {
+		if (GeneralUtility::inList('be_groups,fe_groups', $params['table'])) {
+			$databaseConnection = $this->getDatabaseConnection();
 			$userTable = ($params['table'] === 'be_groups' ? 'be_users' : 'fe_users');
-			$recordList = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance('recordList');
+			$recordList = GeneralUtility::makeInstance('recordList');
 			$recordList->start(0, $userTable, 0);
 			$queryParts = $recordList->makeQueryArray($userTable, 0);
-			$queryParts['WHERE'] = '1=1' . \TYPO3\CMS\Backend\Utility\BackendUtility::deleteClause($userTable);
+			$queryParts['WHERE'] = '1=1' . BackendUtility::deleteClause($userTable);
 
-			$result = $GLOBALS['TYPO3_DB']->exec_SELECT_queryArray($queryParts);
-			while (($row = $GLOBALS['TYPO3_DB']->sql_fetch_assoc($result)) !== FALSE) {
-				$label = \TYPO3\CMS\Backend\Utility\BackendUtility::getRecordTitle($userTable, $row);
+			$result = $databaseConnection->exec_SELECT_queryArray($queryParts);
+			while (($row = $databaseConnection->sql_fetch_assoc($result)) !== FALSE) {
+				$label = BackendUtility::getRecordTitle($userTable, $row);
 				$params['items'][] = array($label, $row['uid']);
 			}
-			$GLOBALS['TYPO3_DB']->sql_free_result($result);
+			$databaseConnection->sql_free_result($result);
 		}
 	}
+
+	/**
+	 * Returns the database connection.
+	 *
+	 * @return \TYPO3\CMS\Core\Database\DatabaseConnection
+	 */
+	protected function getDatabaseConnection() {
+		return $GLOBALS['TYPO3_DB'];
+	}
+
 }
