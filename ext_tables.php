@@ -7,15 +7,22 @@ $boot = function ($_EXTKEY) {
 
     $tables = array('be_groups', 'fe_groups');
     foreach ($tables as $table) {
-        if (isset($config[$table]) && !$config[$table]) {
-            continue;
+        if (!isset($config[$table]) || (bool)$config[$table]) {
+            $manageUsers = true;
         }
-        $manageUsers = true;
     }
 
     if ($manageUsers) {
-        // Register hooks into \TYPO3\CMS\Backend\Form\FormEngine and \TYPO3\CMS\Core\DataHandling\DataHandler
-        $GLOBALS['TYPO3_CONF_VARS']['SC_OPTIONS']['t3lib/class.t3lib_tceforms.php']['getSingleFieldClass'][] = 'EXT:' . $_EXTKEY . '/Classes/Hooks/DataHandler.php:Causal\\MrUsrgrpmgmt\\Hooks\\FormEngine';
+        if (version_compare(TYPO3_version, '7.3', '>=')) {
+            $GLOBALS['TYPO3_CONF_VARS']['SYS']['formEngine']['formDataGroup']['tcaDatabaseRecord']['Causal\\MrUsrgrpmgmt\\Form\\FormDataProvider\\UsersFromGroup'] = array(
+                'depends' => array(
+                    'TYPO3\\CMS\\Backend\\Form\\FormDataProvider\\DatabaseEditRow',
+                ),
+            );
+        } else {
+            $GLOBALS['TYPO3_CONF_VARS']['SC_OPTIONS']['t3lib/class.t3lib_tceforms.php']['getSingleFieldClass'][] = 'EXT:' . $_EXTKEY . '/Classes/Hooks/DataHandler.php:Causal\\MrUsrgrpmgmt\\Hooks\\FormEngine';
+        }
+
         $GLOBALS['TYPO3_CONF_VARS']['SC_OPTIONS']['t3lib/class.t3lib_tcemain.php']['processDatamapClass'][] = 'EXT:' . $_EXTKEY . '/Classes/Hooks/DataHandler.php:Causal\\MrUsrgrpmgmt\\Hooks\\DataHandler';
     }
 

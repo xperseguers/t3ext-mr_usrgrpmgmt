@@ -1,0 +1,53 @@
+{
+  "name": "causal/mr_usrgrpmgmt",
+  "type": "typo3-cms-extension",
+  "description": "This is a Backend-related extension to manage both Backend and Frontend users from the edit form of Backend/Frontend groups. Easily assign users to groups or remove them from groups.",
+  "keywords": [
+    "TYPO3 CMS",
+    "be_groups",
+    "be_users",
+    "fe_groups",
+    "fe_users"
+  ],
+  "authors": [
+    {
+      "name": "Xavier Perseguers",
+      "email": "xavier@causal.ch",
+      "homepage": "https://www.causal.ch",
+      "role": "Developer"
+    }
+  ],
+  "license": "GPL-2.0+",
+  "require": {
+    "php": ">= 5.3.0, <= 7.0.99",
+    "typo3/cms-core": ">= 6.2.0, <= 7.99.99"
+  },
+  "autoload": {
+    "psr-4": {
+      "Causal\\MrUsrgrpmgmt\\": "Classes/"
+    }
+  },
+  "replace": {
+    "mr_usrgrpmgmt": "self.version",
+    "typo3-ter/mr-usrgrpmgmt": "self.version"
+  },
+  "config": {
+    "vendor-dir": ".Build/vendor",
+    "bin-dir": ".Build/bin"
+  },
+  "scripts": {
+    "post-autoload-dump": [
+      "mkdir -p .Build/Web/typo3conf/ext/",
+      "[ -L .Build/Web/typo3conf/ext/mr_usrgrpmgmt ] || ln -snvf ../../../../. .Build/Web/typo3conf/ext/mr_usrgrpmgmt"
+    ]
+  },
+  "extra": {
+    "branch-alias": {
+      "dev-master": "1.2.x-dev"
+    },
+    "typo3/cms": {
+      "cms-package-dir": "{$vendor-dir}/typo3/cms",
+      "web-dir": ".Build/Web"
+    }
+  }
+}
