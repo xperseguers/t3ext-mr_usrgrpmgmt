@@ -38,10 +38,10 @@ class ItemFunctions {
 	 * @param object $pObj
 	 */
 	public function users(array &$params, $pObj) {
-		if (!GeneralUtility::inList('be_groups,fe_groups', $params['table'])) {
+        if (!in_array($params['table'], ['be_groups', 'fe_groups'], true)) {
             return;
         }
-        
+
         $databaseConnection = $this->getDatabaseConnection();
         $userTable = ($params['table'] === 'be_groups' ? 'be_users' : 'fe_users');
         /** @var \TYPO3\CMS\Recordlist\RecordList\AbstractDatabaseRecordList $recordList */

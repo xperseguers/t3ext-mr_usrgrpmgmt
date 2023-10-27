@@ -46,7 +46,7 @@ class DataHandler
      */
     public function processDatamap_preProcessFieldArray(array &$incomingFieldArray, $table, $id, \TYPO3\CMS\Core\DataHandling\DataHandler $pObj)
     {
-        if (GeneralUtility::inList('be_groups,fe_groups', $table)) {
+        if (in_array($table, ['be_groups', 'fe_groups'], true)) {
             $userTable = ($table === 'be_groups' ? 'be_users' : 'fe_users');
             $users = $this->getAssignedUsers($table, $id);
             $oldList = [];

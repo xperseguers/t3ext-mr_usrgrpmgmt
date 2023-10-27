@@ -18,9 +18,6 @@ namespace Causal\MrUsrgrpmgmt\Backend\Form\FormDataProvider;
 
 use Causal\MrUsrgrpmgmt\Traits\AssignedUsersTrait;
 use TYPO3\CMS\Backend\Form\FormDataProviderInterface;
-use TYPO3\CMS\Core\Database\ConnectionPool;
-use TYPO3\CMS\Core\Utility\GeneralUtility;
-use TYPO3\CMS\Backend\Utility\BackendUtility;
 
 /**
  * Additional data when editing a record.
@@ -44,7 +41,7 @@ class UsersFromGroup implements FormDataProviderInterface
      */
     public function addData(array $result)
     {
-        if (GeneralUtility::inList('be_groups,fe_groups', $result['tableName'])) {
+        if (in_array($result['tableName'], ['be_groups', 'fe_groups'], true)) {
             $users = $this->getAssignedUsers($result['tableName'], $result['databaseRow']['uid']);
             $result['databaseRow']['tx_mrusrgrpmgmt_users'] = [];
             foreach ($users as $user) {

@@ -17,8 +17,6 @@ declare(strict_types=1);
 namespace Causal\MrUsrgrpmgmt\Hooks;
 
 use Causal\MrUsrgrpmgmt\Traits\AssignedUsersTrait;
-use TYPO3\CMS\Core\Utility\GeneralUtility;
-use TYPO3\CMS\Backend\Utility\BackendUtility;
 
 /**
  * Hook to pre-process a single field in \TYPO3\CMS\Backend\Form\FormEngine.
@@ -44,7 +42,7 @@ class FormEngine
      */
     public function getSingleField_beforeRender(string $table, string $field, array $row, array &$PA)
     {
-        if (GeneralUtility::inList('be_groups,fe_groups', $table) && $field === 'tx_mrusrgrpmgmt_users') {
+        if (in_array($table, ['be_groups', 'fe_groups'], true) && $field === 'tx_mrusrgrpmgmt_users') {
             $users = $this->getAssignedUsers($table, $row['uid']);
             $list = [];
             foreach ($users as $user) {
