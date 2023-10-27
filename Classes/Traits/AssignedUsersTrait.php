@@ -32,11 +32,11 @@ trait AssignedUsersTrait
     {
         $userTable = ($table === 'be_groups' ? 'be_users' : 'fe_users');
         $queryBuilder = GeneralUtility::makeInstance(ConnectionPool::class)
-            ->getQueryBuilderForTable($table);
+            ->getQueryBuilderForTable($userTable);
 
-        $queryBuilder
+        $users = $queryBuilder
             ->select('uid')
-            ->from($table)
+            ->from($userTable)
             ->where(
                 'CONCAT(CONCAT(\',\',' . $queryBuilder->quoteIdentifier('usergroup') . '), \',\') LIKE \'%,' . $groupUid . ',%\''
             )

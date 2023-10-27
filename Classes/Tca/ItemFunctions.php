@@ -16,6 +16,7 @@ declare(strict_types=1);
 
 namespace Causal\MrUsrgrpmgmt\Tca;
 
+use TYPO3\CMS\Core\Database\ConnectionPool;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 use TYPO3\CMS\Backend\Utility\BackendUtility;
 
@@ -31,7 +32,6 @@ use TYPO3\CMS\Backend\Utility\BackendUtility;
  */
 class ItemFunctions
 {
-
     /**
      * Prepares the list of frontend users.
      *
@@ -44,19 +44,16 @@ class ItemFunctions
             return;
         }
 
-        $databaseConnection = $this->getDatabaseConnection();
         $userTable = ($params['table'] === 'be_groups' ? 'be_users' : 'fe_users');
-        /** @var \TYPO3\CMS\Recordlist\RecordList\AbstractDatabaseRecordList $recordList */
-        $recordList = GeneralUtility::makeInstance('TYPO3\\CMS\\Recordlist\\RecordList\\AbstractDatabaseRecordList');
-        $recordList->start(0, $userTable, 0);
-        $queryParts = $recordList->makeQueryArray($userTable, 0);
-        $queryParts['WHERE'] = '1=1' . BackendUtility::deleteClause($userTable);
-
-        $result = $databaseConnection->exec_SELECT_queryArray($queryParts);
-        while (($row = $databaseConnection->sql_fetch_assoc($result)) !== FALSE) {
+        $statement = GeneralUtility::makeInstance(ConnectionPool::class)
+            ->getConnectionForTable($userTable)
+            ->select(
+                ['*'],
+                $userTable
+            );
+        while (($row = $statement->fetchAssociative()) !== false) {
             $label = BackendUtility::getRecordTitle($userTable, $row);
             $params['items'][] = array($label, $row['uid']);
         }
-        $databaseConnection->sql_free_result($result);
     }
 }
