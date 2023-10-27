@@ -46,70 +46,72 @@ class DataHandler
      */
     public function processDatamap_preProcessFieldArray(array &$incomingFieldArray, $table, $id, \TYPO3\CMS\Core\DataHandling\DataHandler $pObj)
     {
-        if (in_array($table, ['be_groups', 'fe_groups'], true)) {
-            $userTable = ($table === 'be_groups' ? 'be_users' : 'fe_users');
-            $users = $this->getAssignedUsers($table, $id);
-            $oldList = [];
-            foreach ($users as $user) {
-                $oldList[] = $user['uid'];
-            }
-            $newList = GeneralUtility::intExplode(',', $incomingFieldArray['tx_mrusrgrpmgmt_users'], true);
-            $removedUids = array_diff($oldList, $newList);
-            $addedUids = array_diff($newList, $oldList);
-
-            // Remove users that are not member anymore of the group
-            foreach ($removedUids as $userUid) {
-                if (!$userUid) {
-                    continue;
-                }
-                $user = BackendUtility::getRecord($userTable, $userUid);
-                $usergroups = GeneralUtility::trimExplode(',', $user['usergroup']);
-                $key = array_search($id, $usergroups);
-                unset($usergroups[$key]);
-
-                $this->getDatabaseConnection()->exec_UPDATEquery(
-                    $userTable,
-                    'uid=' . $userUid,
-                    array(
-                        'usergroup' => implode(',', $usergroups),
-                    )
-                );
-            }
-
-            // Add users that are now member of the group
-            foreach ($addedUids as $userUid) {
-                if (!$userUid) {
-                    continue;
-                }
-                // New member is coming from suggest field
-                if (\PHP_VERSION_ID >= 80000) {
-                    $newMemberComingFromSuggestField = str_starts_with($userUid, $userTable . '_');
-                } else {
-                    $newMemberComingFromSuggestField = GeneralUtility::isFirstPartOfStr($userUid, $userTable . '_');
-                }
-                if ($newMemberComingFromSuggestField) {
-                    $userUid = substr($userUid, strlen($userTable . '_'));
-                }
-                $user = BackendUtility::getRecord($userTable, $userUid);
-                $usergroups = GeneralUtility::intExplode(',', $user['usergroup'], true);
-                $usergroups[] = $id;
-
-                GeneralUtility::makeInstance(ConnectionPool::class)
-                    ->getConnectionForTable($userTable)
-                    ->update(
-                        $userTable,
-                        [
-                            'usergroup' => implode(',', $usergroups),
-                        ],
-                        [
-                            'uid' => $userUid,
-                        ]
-                    );
-            }
-
-            // Remove virtual user column to prevent TYPO3 from
-            // trying to save content to this non-existing column
-            unset($incomingFieldArray['tx_mrusrgrpmgmt_users']);
+        if (!in_array($table, ['be_groups', 'fe_groups'], true)) {
+            return;
         }
+
+        $userTable = ($table === 'be_groups' ? 'be_users' : 'fe_users');
+        $users = $this->getAssignedUsers($table, $id);
+        $oldList = [];
+        foreach ($users as $user) {
+            $oldList[] = $user['uid'];
+        }
+        $newList = GeneralUtility::intExplode(',', $incomingFieldArray['tx_mrusrgrpmgmt_users'], true);
+        $removedUids = array_diff($oldList, $newList);
+        $addedUids = array_diff($newList, $oldList);
+
+        // Remove users that are not member anymore of the group
+        foreach ($removedUids as $userUid) {
+            if (!$userUid) {
+                continue;
+            }
+            $user = BackendUtility::getRecord($userTable, $userUid);
+            $usergroups = GeneralUtility::trimExplode(',', $user['usergroup']);
+            $key = array_search($id, $usergroups);
+            unset($usergroups[$key]);
+
+            $this->getDatabaseConnection()->exec_UPDATEquery(
+                $userTable,
+                'uid=' . $userUid,
+                array(
+                    'usergroup' => implode(',', $usergroups),
+                )
+            );
+        }
+
+        // Add users that are now member of the group
+        foreach ($addedUids as $userUid) {
+            if (!$userUid) {
+                continue;
+            }
+            // New member is coming from suggest field
+            if (\PHP_VERSION_ID >= 80000) {
+                $newMemberComingFromSuggestField = str_starts_with((string)$userUid, $userTable . '_');
+            } else {
+                $newMemberComingFromSuggestField = GeneralUtility::isFirstPartOfStr($userUid, $userTable . '_');
+            }
+            if ($newMemberComingFromSuggestField) {
+                $userUid = substr($userUid, strlen($userTable . '_'));
+            }
+            $user = BackendUtility::getRecord($userTable, $userUid);
+            $usergroups = GeneralUtility::intExplode(',', $user['usergroup'], true);
+            $usergroups[] = $id;
+
+            GeneralUtility::makeInstance(ConnectionPool::class)
+                ->getConnectionForTable($userTable)
+                ->update(
+                    $userTable,
+                    [
+                        'usergroup' => implode(',', $usergroups),
+                    ],
+                    [
+                        'uid' => $userUid,
+                    ]
+                );
+        }
+
+        // Remove virtual user column to prevent TYPO3 from
+        // trying to save content to this non-existing column
+        unset($incomingFieldArray['tx_mrusrgrpmgmt_users']);
     }
 }
