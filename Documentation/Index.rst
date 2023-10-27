@@ -8,55 +8,41 @@
 
 .. _start:
 
-==========================
-EXT: User Group Management
-==========================
+=====================
+User Group Management
+=====================
 
-.. only:: html
+:Extension key:
+   mr_usrgrpmgmt
 
-    :Classification:
-        mr_usrgrpmgmt
+:Package name:
+   causal/mr_usrgrpmgmt
 
-    :Version:
-        |release|
+:Version:
+   |release|
 
-    :Language:
-        en
+:Language:
+   en
 
-    :Description:
-        This is a backend-related extension to manage both Backend and Frontend users from the edit
-        form of Backend/Frontend groups. Easily assign users to groups or remove them from groups.
+:Author:
+   Xavier Perseguers
 
-    :Keywords:
-        be_user, be_group, fe_user, fe_group
+:License:
+   This document is published under the
+   `Creative Commons BY 4.0 <https://creativecommons.org/licenses/by/4.0/>`__
+   license.
 
-    :Copyright:
-        2010-2016
+:Rendered:
+   |today|
 
-    :Author:
-        Xavier Perseguers
+----
 
-    :Email:
-        xavier@causal.ch
+This is a Backend-related extension to manage both Backend and Frontend users from the edit form of Backend/Frontend
+groups. Easily assign users to groups or remove them from groups.
 
-    :License:
-        This document is published under the Open Publication License
-        available from http://www.opencontent.org/openpub/
+----
 
-    :Rendered:
-        |today|
-
-    The content of this document is related to TYPO3,
-    a GNU/GPL CMS/Framework available from `www.typo3.org <https://typo3.org/>`__.
-
-
-    **Other version of this document**
-
-    :PDF:
-        https://docs.typo3.org/typo3cms/extensions/mr_usrgrpmgmt/1.2.0/_pdf/
-
-
-    **Table of Contents**
+**Table of Contents:**
 
 .. toctree::
     :maxdepth: 3

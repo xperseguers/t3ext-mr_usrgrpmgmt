@@ -1,32 +1,32 @@
 <?php
-defined('TYPO3_MODE') || die();
+defined('TYPO3') || die();
 
-$boot = function ($_EXTKEY) {
-    $config = unserialize($TYPO3_CONF_VARS['EXT']['extConf'][$_EXTKEY]);
+(static function (string $_EXTKEY) {
+    $config = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance(
+        \TYPO3\CMS\Core\Configuration\ExtensionConfiguration::class
+    )->get($_EXTKEY) ?? [];
     $manageUsers = false;
 
-    $tables = array('be_groups', 'fe_groups');
+    $tables = ['be_groups', 'fe_groups'];
     foreach ($tables as $table) {
-        if (!isset($config[$table]) || (bool)$config[$table]) {
+        if ((bool)($config[$table] ?? true)) {
             $manageUsers = true;
+            break;
         }
     }
 
     if ($manageUsers) {
-        if (version_compare(TYPO3_version, '7.3', '>=')) {
-            $GLOBALS['TYPO3_CONF_VARS']['SYS']['formEngine']['formDataGroup']['tcaDatabaseRecord']['Causal\\MrUsrgrpmgmt\\Form\\FormDataProvider\\UsersFromGroup'] = array(
-                'depends' => array(
-                    'TYPO3\\CMS\\Backend\\Form\\FormDataProvider\\DatabaseEditRow',
-                ),
-            );
-        } else {
-            $GLOBALS['TYPO3_CONF_VARS']['SC_OPTIONS']['t3lib/class.t3lib_tceforms.php']['getSingleFieldClass'][] = 'EXT:' . $_EXTKEY . '/Classes/Hooks/DataHandler.php:Causal\\MrUsrgrpmgmt\\Hooks\\FormEngine';
-        }
+        // Extend the record with virtual fields when editing
+        $dataProviders =& $GLOBALS['TYPO3_CONF_VARS']['SYS']['formEngine']['formDataGroup']['tcaDatabaseRecord'];
+        $dataProviders[\Causal\MrUsrgrpmgmt\Backend\Form\FormDataProvider\UsersFromGroup::class] = [
+            'after' => [
+                \TYPO3\CMS\Backend\Form\FormDataProvider\DatabaseEditRow::class,
+            ]
+        ];
 
-        $GLOBALS['TYPO3_CONF_VARS']['SC_OPTIONS']['t3lib/class.t3lib_tcemain.php']['processDatamapClass'][] = 'EXT:' . $_EXTKEY . '/Classes/Hooks/DataHandler.php:Causal\\MrUsrgrpmgmt\\Hooks\\DataHandler';
+        // Register hooks for \TYPO3\CMS\Core\DataHandling\DataHandler
+        $GLOBALS['TYPO3_CONF_VARS']['SC_OPTIONS']['t3lib/class.t3lib_tcemain.php']['processDatamapClass'][]
+            = \Causal\MrUsrgrpmgmt\Hooks\DataHandler::class;
     }
 
-};
-
-$boot($_EXTKEY);
-unset($boot);
+})('mr_usrgrpmgmt');

@@ -10,31 +10,21 @@
 # writing. "version" and "dependencies" must not be touched!
 ########################################################################
 
-$EM_CONF[$_EXTKEY] = array(
+$EM_CONF[$_EXTKEY] = [
     'title' => 'User Group Management',
     'description' => 'This is a Backend-related extension to manage both Backend and Frontend users from the edit form of Backend/Frontend groups. Easily assign users to groups or remove them from groups.',
     'category' => 'be',
+    'version' => '1.3.0',
+    'state' => 'stable',
     'author' => 'Xavier Perseguers',
     'author_email' => 'xavier@causal.ch',
     'author_company' => 'Causal Sàrl',
-    'shy' => '',
-    'priority' => '',
-    'module' => '',
-    'state' => 'stable',
-    'internal' => '',
-    'uploadfolder' => 0,
-    'createDirs' => '',
-    'modify_tables' => '',
-    'clearCacheOnLoad' => 0,
-    'lockType' => '',
-    'version' => '1.2.1-dev',
-    'constraints' => array(
-        'depends' => array(
-            'typo3' => '6.2.0-7.99.99',
-            'php' => '5.3.0-7.0.99',
-        ),
-        'conflicts' => array(),
-        'suggests' => array(),
-    ),
-    '_md5_values_when_last_written' => '',
-);
+    'constraints' => [
+        'depends' => [
+            'php' => '7.4.0-8.2.99',
+            'typo3' => '10.4.0-12.4.99'
+        ],
+        'conflicts' => [],
+        'suggests' => [],
+    ],
+];
