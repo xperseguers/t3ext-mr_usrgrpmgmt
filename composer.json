@@ -17,7 +17,7 @@
       "role": "Developer"
     }
   ],
-  "license": "GPL-2.0+",
+  "license": "GPL-2.0-or-later",
   "require": {
     "php": ">= 5.3.0, <= 7.0.99",
     "typo3/cms-core": ">= 6.2.0, <= 7.99.99"
@@ -27,27 +27,12 @@
       "Causal\\MrUsrgrpmgmt\\": "Classes/"
     }
   },
-  "replace": {
-    "mr_usrgrpmgmt": "self.version",
-    "typo3-ter/mr-usrgrpmgmt": "self.version"
-  },
-  "config": {
-    "vendor-dir": ".Build/vendor",
-    "bin-dir": ".Build/bin"
-  },
-  "scripts": {
-    "post-autoload-dump": [
-      "mkdir -p .Build/Web/typo3conf/ext/",
-      "[ -L .Build/Web/typo3conf/ext/mr_usrgrpmgmt ] || ln -snvf ../../../../. .Build/Web/typo3conf/ext/mr_usrgrpmgmt"
-    ]
-  },
   "extra": {
     "branch-alias": {
       "dev-master": "1.2.x-dev"
     },
     "typo3/cms": {
-      "cms-package-dir": "{$vendor-dir}/typo3/cms",
-      "web-dir": ".Build/Web"
+      "extension-key": "mr_usrgrpmgmt"
     }
   }
 }
