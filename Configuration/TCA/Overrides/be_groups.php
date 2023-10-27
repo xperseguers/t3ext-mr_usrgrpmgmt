@@ -5,7 +5,7 @@ $config = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance(
     \TYPO3\CMS\Core\Configuration\ExtensionConfiguration::class
 )->get('mr_usrgrpmgmt') ?? [];
 
-if ((bool)($config['be_groups'] ?? false)) {
+if ((bool)($config['be_groups'] ?? true)) {
     // Create a virtual column to hold user assignment
     $tempColumns = [
         'tx_mrusrgrpmgmt_users' => [

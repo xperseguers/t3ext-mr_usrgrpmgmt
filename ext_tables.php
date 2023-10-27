@@ -9,7 +9,7 @@ defined('TYPO3') || die();
 
     $tables = ['be_groups', 'fe_groups'];
     foreach ($tables as $table) {
-        if ((bool)($config[$table] ?? false)) {
+        if ((bool)($config[$table] ?? true)) {
             $manageUsers = true;
             break;
         }
