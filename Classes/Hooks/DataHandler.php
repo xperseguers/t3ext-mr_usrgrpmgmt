@@ -66,17 +66,21 @@ class DataHandler
                 continue;
             }
             $user = BackendUtility::getRecord($userTable, $userUid);
-            $usergroups = GeneralUtility::trimExplode(',', $user['usergroup']);
+            $usergroups = GeneralUtility::intExplode(',', $user['usergroup'], true);
             $key = array_search($id, $usergroups);
             unset($usergroups[$key]);
 
-            $this->getDatabaseConnection()->exec_UPDATEquery(
-                $userTable,
-                'uid=' . $userUid,
-                array(
-                    'usergroup' => implode(',', $usergroups),
-                )
-            );
+            GeneralUtility::makeInstance(ConnectionPool::class)
+                ->getConnectionForTable($userTable)
+                ->update(
+                    $userTable,
+                    [
+                        'usergroup' => implode(',', $usergroups),
+                    ],
+                    [
+                        'uid' => $userUid,
+                    ]
+                );
         }
 
         // Add users that are now member of the group
@@ -91,7 +95,7 @@ class DataHandler
                 $newMemberComingFromSuggestField = GeneralUtility::isFirstPartOfStr($userUid, $userTable . '_');
             }
             if ($newMemberComingFromSuggestField) {
-                $userUid = substr($userUid, strlen($userTable . '_'));
+                $userUid = (int)substr((string)$userUid, strlen($userTable . '_'));
             }
             $user = BackendUtility::getRecord($userTable, $userUid);
             $usergroups = GeneralUtility::intExplode(',', $user['usergroup'], true);
