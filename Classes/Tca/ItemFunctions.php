@@ -16,6 +16,8 @@ declare(strict_types=1);
 
 namespace Causal\MrUsrgrpmgmt\Tca;
 
+use Causal\MrUsrgrpmgmt\Traits\AssignedUsersTrait;
+use TYPO3\CMS\Backend\Form\FormDataProvider\TcaSelectItems;
 use TYPO3\CMS\Core\Database\ConnectionPool;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 use TYPO3\CMS\Backend\Utility\BackendUtility;
@@ -32,25 +34,29 @@ use TYPO3\CMS\Backend\Utility\BackendUtility;
  */
 class ItemFunctions
 {
+    use AssignedUsersTrait;
+
     /**
      * Prepares the list of frontend users.
      *
      * @param array $params
-     * @param object $pObj
+     * @param TcaSelectItems $pObj
      */
-    public function getUsers(array &$params, $pObj)
+    public function getUsers(array &$params, TcaSelectItems $pObj)
     {
         if (!in_array($params['table'], ['be_groups', 'fe_groups'], true)) {
             return;
         }
 
         $userTable = ($params['table'] === 'be_groups' ? 'be_users' : 'fe_users');
-        $statement = GeneralUtility::makeInstance(ConnectionPool::class)
-            ->getConnectionForTable($userTable)
-            ->select(
-                ['*'],
-                $userTable
-            );
+        $queryBuilder = GeneralUtility::makeInstance(ConnectionPool::class)
+            ->getQueryBuilderForTable($userTable);
+        $statement = $queryBuilder
+            ->select('*')
+            ->from($userTable)
+            ->orderBy('username')
+            ->execute();
+
         while (($row = $statement->fetchAssociative()) !== false) {
             $label = BackendUtility::getRecordTitle($userTable, $row);
             $params['items'][] = array($label, $row['uid']);

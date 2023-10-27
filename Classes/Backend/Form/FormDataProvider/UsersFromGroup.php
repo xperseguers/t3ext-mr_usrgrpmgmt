@@ -42,10 +42,10 @@ class UsersFromGroup implements FormDataProviderInterface
     public function addData(array $result)
     {
         if (in_array($result['tableName'], ['be_groups', 'fe_groups'], true)) {
-            $users = $this->getAssignedUsers($result['tableName'], $result['databaseRow']['uid']);
+            $userUids = $this->getAssignedUsers($result['tableName'], $result['databaseRow']['uid']);
             $result['databaseRow']['tx_mrusrgrpmgmt_users'] = [];
-            foreach ($users as $user) {
-                $result['databaseRow']['tx_mrusrgrpmgmt_users'][] = $user['uid'];
+            foreach ($userUids as $userUid) {
+                $result['databaseRow']['tx_mrusrgrpmgmt_users'][] = $userUid;
             }
         }
 

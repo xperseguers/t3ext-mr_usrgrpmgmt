@@ -42,19 +42,23 @@ class DataHandler
      * @param string $table
      * @param int|string $id
      * @param \TYPO3\CMS\Core\DataHandling\DataHandler $pObj
-     * @return void
      */
-    public function processDatamap_preProcessFieldArray(array &$incomingFieldArray, $table, $id, \TYPO3\CMS\Core\DataHandling\DataHandler $pObj)
+    public function processDatamap_preProcessFieldArray(
+        array &$incomingFieldArray,
+        string $table,
+        $id,
+        \TYPO3\CMS\Core\DataHandling\DataHandler $pObj
+    ): void
     {
         if (!in_array($table, ['be_groups', 'fe_groups'], true)) {
             return;
         }
 
         $userTable = ($table === 'be_groups' ? 'be_users' : 'fe_users');
-        $users = $this->getAssignedUsers($table, $id);
+        $userUids = $this->getAssignedUsers($table, $id);
         $oldList = [];
-        foreach ($users as $user) {
-            $oldList[] = $user['uid'];
+        foreach ($userUids as $userUid) {
+            $oldList[] = $userUid;
         }
         $newList = GeneralUtility::intExplode(',', $incomingFieldArray['tx_mrusrgrpmgmt_users'], true);
         $removedUids = array_diff($oldList, $newList);

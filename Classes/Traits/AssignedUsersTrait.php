@@ -42,7 +42,7 @@ trait AssignedUsersTrait
             )
             ->orderBy('username')
             ->execute()
-            ->fetchAllAssociative();
+            ->fetchFirstColumn();
 
         return $users;
     }
