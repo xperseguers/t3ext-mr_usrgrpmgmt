@@ -29,15 +29,17 @@ use TYPO3\CMS\Backend\Utility\BackendUtility;
  * @copyright   2010-2023 Causal Sàrl
  * @license     https://www.gnu.org/licenses/old-licenses/gpl-2.0.html
  */
-class ItemFunctions {
+class ItemFunctions
+{
 
-	/**
-	 * Prepares the list of frontend users.
-	 *
-	 * @param array $params
-	 * @param object $pObj
-	 */
-	public function users(array &$params, $pObj) {
+    /**
+     * Prepares the list of frontend users.
+     *
+     * @param array $params
+     * @param object $pObj
+     */
+    public function users(array &$params, $pObj)
+    {
         if (!in_array($params['table'], ['be_groups', 'fe_groups'], true)) {
             return;
         }
@@ -56,5 +58,5 @@ class ItemFunctions {
             $params['items'][] = array($label, $row['uid']);
         }
         $databaseConnection->sql_free_result($result);
-	}
+    }
 }
