@@ -38,7 +38,7 @@ class ItemFunctions
      * @param array $params
      * @param object $pObj
      */
-    public function users(array &$params, $pObj)
+    public function getUsers(array &$params, $pObj)
     {
         if (!in_array($params['table'], ['be_groups', 'fe_groups'], true)) {
             return;

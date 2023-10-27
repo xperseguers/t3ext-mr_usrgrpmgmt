@@ -4,7 +4,7 @@
 		<header/>
 		<body>
 			<trans-unit id="groups.tx_mrusrgrpmgmt_users">
-				<source>Users:</source>
+				<source>Users</source>
 			</trans-unit>
 		</body>
 	</file>
