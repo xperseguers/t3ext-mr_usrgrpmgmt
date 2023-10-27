@@ -20,11 +20,6 @@ if ((bool)($config['fe_groups'] ?? true)) {
                 'minitems' => '0',
                 'maxitems' => '999',
                 'allowed' => 'fe_users',
-                'wizards' => [
-                    'suggest' => [
-                        'type' => 'suggest',
-                    ],
-                ],
             ],
         ],
     ];

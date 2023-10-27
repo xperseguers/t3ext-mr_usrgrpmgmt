@@ -88,15 +88,6 @@ class DataHandler
             if (!$userUid) {
                 continue;
             }
-            // New member is coming from suggest field
-            if (\PHP_VERSION_ID >= 80000) {
-                $newMemberComingFromSuggestField = str_starts_with((string)$userUid, $userTable . '_');
-            } else {
-                $newMemberComingFromSuggestField = GeneralUtility::isFirstPartOfStr($userUid, $userTable . '_');
-            }
-            if ($newMemberComingFromSuggestField) {
-                $userUid = (int)substr((string)$userUid, strlen($userTable . '_'));
-            }
             $user = BackendUtility::getRecord($userTable, $userUid);
             $usergroups = GeneralUtility::intExplode(',', $user['usergroup'], true);
             $usergroups[] = $id;

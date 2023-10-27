@@ -20,11 +20,6 @@ if ((bool)($config['be_groups'] ?? true)) {
                 'minitems' => '0',
                 'maxitems' => '999',
                 'allowed' => 'be_users',
-                'wizards' => [
-                    'suggest' => [
-                        'type' => 'suggest',
-                    ],
-                ],
             ],
         ],
     ];
