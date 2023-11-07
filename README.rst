@@ -16,4 +16,4 @@ Installation
 
 #. Proceed as usual
 
-Read more in the `manual <https://docs.typo3.org/typo3cms/extensions/mr_usrgrpmgmt/>`_.
+Read more in the `manual <https://docs.typo3.org/p/causal/mr_usrgrpmgmt/main/en-us/>`_.
