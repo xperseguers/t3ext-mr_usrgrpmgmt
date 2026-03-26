@@ -28,7 +28,7 @@ use TYPO3\CMS\Backend\Utility\BackendUtility;
  * @package     TYPO3
  * @subpackage  tx_mrusrgrpmgmt
  * @author      Xavier Perseguers <xavier@causal.ch>
- * @copyright   2010-2023 Causal Sàrl
+ * @copyright   2010-2026 Causal Sàrl
  * @license     https://www.gnu.org/licenses/old-licenses/gpl-2.0.html
  */
 class DataHandler
