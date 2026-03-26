@@ -41,9 +41,8 @@ class ItemFunctions
      * Prepares the list of frontend users.
      *
      * @param array $params
-     * @param TcaSelectItems $pObj
      */
-    public function getUsers(array &$params, TcaSelectItems $pObj)
+    public function getUsers(array &$params): void
     {
         if (!in_array($params['table'], ['be_groups', 'fe_groups'], true)) {
             return;
