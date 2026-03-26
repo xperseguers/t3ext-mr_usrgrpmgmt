@@ -41,7 +41,7 @@ trait AssignedUsersTrait
                 'CONCAT(CONCAT(\',\',' . $queryBuilder->quoteIdentifier('usergroup') . '), \',\') LIKE \'%,' . $groupUid . ',%\''
             )
             ->orderBy('username')
-            ->execute()
+            ->executeQuery()
             ->fetchFirstColumn();
 
         return $users;

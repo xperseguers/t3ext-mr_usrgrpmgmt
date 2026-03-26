@@ -10,15 +10,15 @@ if ((bool)($config['be_groups'] ?? true)) {
     $tempColumns = [
         'tx_mrusrgrpmgmt_users' => [
             'label' => 'LLL:EXT:mr_usrgrpmgmt/Resources/Private/Language/locallang_tca.xlf:groups.tx_mrusrgrpmgmt_users',
-            'exclude' => 1,
+            'exclude' => true,
             'displayCond' => 'REC:NEW:false',
             'config' => [
                 'type' => 'select',
                 'renderType' => 'selectMultipleSideBySide',
                 'itemsProcFunc' => \Causal\MrUsrgrpmgmt\Tca\ItemFunctions::class . '->getUsers',
-                'size' => '12',
-                'minitems' => '0',
-                'maxitems' => '999',
+                'size' => 12,
+                'minitems' => 0,
+                'maxitems' => 999,
                 'allowed' => 'be_users',
             ],
         ],

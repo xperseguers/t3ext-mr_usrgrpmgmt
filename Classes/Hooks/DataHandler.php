@@ -60,7 +60,7 @@ class DataHandler
         foreach ($userUids as $userUid) {
             $oldList[] = $userUid;
         }
-        $newList = GeneralUtility::intExplode(',', $incomingFieldArray['tx_mrusrgrpmgmt_users'], true);
+        $newList = GeneralUtility::intExplode(',', $incomingFieldArray['tx_mrusrgrpmgmt_users'] ?? '', true);
         $removedUids = array_diff($oldList, $newList);
         $addedUids = array_diff($newList, $oldList);
 
