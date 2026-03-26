@@ -16,8 +16,6 @@ declare(strict_types=1);
 
 namespace Causal\MrUsrgrpmgmt\Tca;
 
-use Causal\MrUsrgrpmgmt\Traits\AssignedUsersTrait;
-use TYPO3\CMS\Backend\Form\FormDataProvider\TcaSelectItems;
 use TYPO3\CMS\Core\Database\ConnectionPool;
 use TYPO3\CMS\Core\Information\Typo3Version;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
@@ -35,8 +33,6 @@ use TYPO3\CMS\Backend\Utility\BackendUtility;
  */
 class ItemFunctions
 {
-    use AssignedUsersTrait;
-
     /**
      * Prepares the list of frontend users.
      *
