@@ -19,6 +19,7 @@ namespace Causal\MrUsrgrpmgmt\Tca;
 use Causal\MrUsrgrpmgmt\Traits\AssignedUsersTrait;
 use TYPO3\CMS\Backend\Form\FormDataProvider\TcaSelectItems;
 use TYPO3\CMS\Core\Database\ConnectionPool;
+use TYPO3\CMS\Core\Information\Typo3Version;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 use TYPO3\CMS\Backend\Utility\BackendUtility;
 
@@ -55,11 +56,20 @@ class ItemFunctions
             ->select('*')
             ->from($userTable)
             ->orderBy('username')
-            ->execute();
+            ->executeQuery();
 
+        $typo3Version = (new Typo3Version())->getMajorVersion();
         while (($row = $statement->fetchAssociative()) !== false) {
             $label = BackendUtility::getRecordTitle($userTable, $row);
-            $params['items'][] = array($label, $row['uid']);
+
+            if ($typo3Version >= 12) {
+                $params['items'][] = [
+                    'label' => $label,
+                    'value' => $row['uid'],
+                ];
+            } else {
+                $params['items'][] = [$label, $row['uid']];
+            }
         }
     }
 }
