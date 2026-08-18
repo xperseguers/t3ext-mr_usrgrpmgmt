@@ -1,7 +1,7 @@
 {
   "name": "causal/mr_usrgrpmgmt",
   "type": "typo3-cms-extension",
-  "description": "This is a Backend-related extension to manage both Backend and Frontend users from the edit form of Backend/Frontend groups. Easily assign users to groups or remove them from groups.",
+  "description": "User Group Management - This is a Backend-related extension to manage both Backend and Frontend users from the edit form of Backend/Frontend groups. Easily assign users to groups or remove them from groups.",
   "keywords": [
     "TYPO3 CMS",
     "be_groups",
